@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/add_post"
+        android:icon="@drawable/logo"
+        android:title="Fotoğraf Paylaş"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/profile"
+        android:icon="@color/colorPrimaryDark"
+        android:title="Profil">
+
+    </item>
+    <item android:id="@+id/signout"
+        android:title="Çıkış Yap"
+        android:icon="@color/colorPrimaryDark">
+    </item>-
+
+</menu>

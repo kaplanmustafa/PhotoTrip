@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MapsActivity">
+
+   <fragment
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/google_map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        />
+    <!--
+        <SearchView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/sv_location"
+            android:queryHint="Yerleri ara"
+            android:iconifiedByDefault="false"
+            android:layout_margin="10dp"
+            android:elevation="5dp"
+            android:background="@drawable/bg_round"
+            />-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="20dp"
+        android:background="@android:color/darker_gray"
+        android:orientation="horizontal">
+
+        <fragment
+            android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+            android:id="@+id/autocomplete_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </fragment>
+
+    </LinearLayout>
+
+</RelativeLayout>
+
+

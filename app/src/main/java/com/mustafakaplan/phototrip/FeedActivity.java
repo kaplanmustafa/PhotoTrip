@@ -1,0 +1,222 @@
+package com.mustafakaplan.phototrip;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import android.app.ActionBar;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+public class FeedActivity<recyclerView> extends AppCompatActivity
+{
+    private FirebaseAuth firebaseAuth;
+    private FirebaseFirestore firebaseFirestore;
+
+    static ArrayList<String> deleteDoc = new ArrayList<>();
+    static boolean updateAct = false;
+    static boolean deleteItem = false;
+    private Map<String, Object> docData;
+
+    ArrayList<String> userEmailFromFB;
+    ArrayList<String> userCommentFromFB;
+    ArrayList<String> userImageFromFB;
+    static ArrayList<String> userAddressFromFB;
+    static ArrayList<String> userLatitudeFromFB;
+    static ArrayList<String> userLongitudeFromFB;
+
+    FeedRecyclerAdapter feedRecyclerAdapter;
+    Intent intent;
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) // Menüyü Aktiviteye Bağlama
+    {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.insta_options_menu,menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    public void deletePost()
+    {
+        docData = new HashMap<>();
+        docData.put("visibility", "false");
+
+        for(String docs : deleteDoc)
+        {
+            firebaseFirestore.collection("Posts").document(docs).update(docData).addOnSuccessListener(new OnSuccessListener<Void>()
+            {
+                @Override
+                public void onSuccess(Void aVoid)
+                {
+
+                }
+            }).addOnFailureListener(new OnFailureListener()
+            {
+                @Override
+                public void onFailure(@NonNull Exception e)
+                {
+                    System.out.println(e);
+                }
+            });
+        }
+
+        deleteDoc.clear();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) // Menüde Seçim Yapılırsa Yapılacaklar
+    {
+        if(item.getItemId() == R.id.add_post) // Gönderi Ekle
+        {
+            Intent intentToUpload = new Intent(FeedActivity.this, UploadActivity.class);
+            startActivity(intentToUpload);
+        }
+        else if(item.getItemId() == R.id.profile) // Profile Git
+        {
+            Intent intentToProfile = new Intent(FeedActivity.this, ProfileActivity.class);
+            startActivity(intentToProfile);
+            intentToProfile.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // Bütün aktiviteleri kapat
+            finish();
+        }
+        else if(item.getItemId() == R.id.signout) // Çıkış Yap
+        {
+            firebaseAuth.signOut();
+
+            Intent intentToSignup = new Intent(FeedActivity.this,SignUpActivity.class);
+            startActivity(intentToSignup);
+            intentToSignup.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // Bütün aktiviteleri kapat
+            finish();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_feed);
+
+        userEmailFromFB = new ArrayList<>();
+        userCommentFromFB = new ArrayList<>();
+        userImageFromFB = new ArrayList<>();
+        userAddressFromFB = new ArrayList<>();
+        userLatitudeFromFB = new ArrayList<>();
+        userLongitudeFromFB = new ArrayList<>();
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseFirestore = FirebaseFirestore.getInstance();
+
+        if(deleteItem)
+        {
+            deletePost();
+            deleteItem = false;
+            ArchiveActivity.deleteItem = false;
+            finish();
+            startActivity(getIntent());
+        }
+
+        if(updateAct)
+        {
+            updateAct = false;
+            finish();
+            startActivity(getIntent());
+        }
+
+        if(!deleteItem && !updateAct)
+        {
+            getDataFromFirestore();
+        }
+
+
+        RecyclerView recyclerView = findViewById(R.id.recyclerProfileView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        feedRecyclerAdapter = new FeedRecyclerAdapter(userEmailFromFB,userCommentFromFB,userImageFromFB,userAddressFromFB);
+
+        recyclerView.setAdapter(feedRecyclerAdapter);
+    }
+
+    public void goLocation(int position, Context context)
+    {
+        intent = new Intent(context,MapsActivity.class);
+
+        intent.putExtra("locationLatitude",userLatitudeFromFB.get(position));
+        intent.putExtra("locationLongitude",userLongitudeFromFB.get(position));
+        intent.putExtra("locationAddress",userAddressFromFB.get(position));
+
+        startActivity(intent);
+    }
+
+    public void getDataFromFirestore()
+    {
+        CollectionReference collectionReference = firebaseFirestore.collection("Posts");
+
+        collectionReference.orderBy("date", Query.Direction.DESCENDING).addSnapshotListener(new EventListener<QuerySnapshot>()
+        {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e)
+            {
+                if(e != null)
+                {
+                    Toast.makeText(FeedActivity.this,e.getLocalizedMessage().toString(),Toast.LENGTH_LONG).show();
+                }
+                else
+                {
+                    if(queryDocumentSnapshots != null)
+                    {
+                        for(DocumentSnapshot snapshot : queryDocumentSnapshots.getDocuments())
+                        {
+                            Map<String,Object> data = snapshot.getData();
+
+                            String visibility = (String) data.get("visibility");
+
+                            if(visibility.matches("true"))
+                            {
+                                String comment = (String) data.get("comment");
+                                String userEmail = (String) data.get("useremail");
+                                String downloadUrl = (String) data.get("downloadurl");
+                                String address = (String) data.get("address");
+                                String latitude = (String) data.get("latitude");
+                                String longitude = (String) data.get("longitude");
+
+                                userCommentFromFB.add(comment);
+                                userEmailFromFB.add(userEmail);
+                                userImageFromFB.add(downloadUrl);
+                                userAddressFromFB.add(address);
+                                userLatitudeFromFB.add(latitude);
+                                userLongitudeFromFB.add(longitude);
+
+                                feedRecyclerAdapter.notifyDataSetChanged();
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+}

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000"
+    tools:context=".EditProfileActivity">
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/selectImage"
+        android:layout_width="264dp"
+        android:layout_height="260dp"
+        android:layout_marginTop="80dp"
+        android:onClick="selectImage"
+        app:civ_border_color="#FFFFFF"
+        app:civ_border_width="2dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/user"
+        tools:ignore="MissingConstraints" />
+
+    <EditText
+        android:id="@+id/nameEditText"
+        android:layout_width="264dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="76dp"
+        android:ems="10"
+        android:gravity="center"
+        android:inputType="textPersonName"
+        android:text="Ad Soyad"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        app:layout_constraintStart_toStartOf="@+id/selectImage"
+        app:layout_constraintTop_toBottomOf="@+id/selectImage" />
+
+    <EditText
+        android:id="@+id/aboutMeText"
+        android:layout_width="262dp"
+        android:layout_height="106dp"
+        android:layout_marginTop="30dp"
+        android:ems="10"
+        android:gravity="center|start|top|fill_vertical"
+        android:inputType="textMultiLine"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="@+id/nameEditText"
+        app:layout_constraintStart_toStartOf="@+id/nameEditText"
+        app:layout_constraintTop_toBottomOf="@+id/nameEditText"
+        tools:text="Hakkımda" />
+
+    <Button
+        android:id="@+id/saveButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="2dp"
+        android:onClick="saveChange"
+        android:text="KAYDET"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/deletePpButton"
+        android:layout_width="192dp"
+        android:layout_height="39dp"
+        android:layout_marginTop="16dp"
+        android:onClick="deletePp"
+        android:text="FOTOĞRAFI KALDIR"
+        app:layout_constraintEnd_toEndOf="@+id/selectImage"
+        app:layout_constraintStart_toStartOf="@+id/selectImage"
+        app:layout_constraintTop_toBottomOf="@+id/selectImage" />
+</androidx.constraintlayout.widget.ConstraintLayout>

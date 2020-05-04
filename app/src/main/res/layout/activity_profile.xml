@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000"
+    tools:context=".ProfileActivity">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerProfileView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="200dp"
+        android:background="#000000"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <!--<ImageView
+        android:id="@+id/profilePhoto"
+        android:layout_width="187dp"
+        android:layout_height="171dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="2dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/user" />-->
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profilePhoto"
+        android:layout_width="187dp"
+        android:layout_height="171dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="2dp"
+        app:civ_border_color="#FFFFFF"
+        app:civ_border_width="2dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/user"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/nameText"
+        android:layout_width="183dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="24dp"
+        android:gravity="center"
+        android:hint="Ad Soyad"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/editButton"
+        android:layout_width="85dp"
+        android:layout_height="37dp"
+        android:gravity="center"
+        android:onClick="editProfile"
+        android:text="düzenle"
+        app:layout_constraintBottom_toBottomOf="@+id/profilePhoto"
+        app:layout_constraintStart_toStartOf="@+id/aboutText" />
+
+    <EditText
+        android:id="@+id/aboutText"
+        android:layout_width="179dp"
+        android:layout_height="71dp"
+        android:layout_marginBottom="5dp"
+        android:ems="10"
+        android:enabled="false"
+        android:gravity="start|top"
+        android:hint="Hakkımda"
+        android:inputType="textMultiLine"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#FFFFFF"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/editButton"
+        app:layout_constraintEnd_toEndOf="@+id/nameText"
+        app:layout_constraintStart_toStartOf="@+id/nameText"
+        tools:ignore="RtlCompat" />
+
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginBottom="1dp"
+        android:background="#FFFFFF"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerProfileView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profilePhoto"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/archiveButton"
+        android:layout_width="84dp"
+        android:layout_height="37dp"
+        android:gravity="center"
+        android:onClick="goArchive"
+        android:text="ARŞİV"
+        app:layout_constraintBottom_toBottomOf="@+id/profilePhoto"
+        app:layout_constraintEnd_toEndOf="@+id/aboutText" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

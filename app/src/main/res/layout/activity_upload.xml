@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".UploadActivity">
+
+    <ImageView
+        android:id="@+id/selectLocation"
+        android:layout_width="76dp"
+        android:layout_height="72dp"
+        android:layout_marginTop="20dp"
+        android:onClick="selectLocation"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="@+id/commentText"
+        app:layout_constraintTop_toBottomOf="@+id/commentText"
+        app:srcCompat="@drawable/add_address" />
+
+    <ImageView
+        android:id="@+id/selectImage"
+        android:layout_width="372dp"
+        android:layout_height="310dp"
+        android:onClick="selectImage"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.236"
+        app:srcCompat="@drawable/add" />
+
+    <EditText
+        android:id="@+id/commentText"
+        android:layout_width="309dp"
+        android:layout_height="43dp"
+        android:layout_marginTop="30dp"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="Açıklama Yaz..."
+        android:inputType="textPersonName"
+        android:textAlignment="center"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/selectImage" />
+
+    <Button
+        android:id="@+id/upload"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="2dp"
+        android:onClick="upload"
+        android:text="paylaş"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/addressText"
+        android:layout_width="219dp"
+        android:layout_height="41dp"
+        android:gravity="center"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="@+id/selectLocation"
+        app:layout_constraintEnd_toEndOf="@+id/commentText"
+        app:layout_constraintTop_toTopOf="@+id/selectLocation" />
+
+    <Switch
+        android:id="@+id/locationSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:onClick="locationActivity"
+        android:text="Konum"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="@+id/addressText"
+        app:layout_constraintTop_toBottomOf="@+id/addressText" />
+</androidx.constraintlayout.widget.ConstraintLayout>
