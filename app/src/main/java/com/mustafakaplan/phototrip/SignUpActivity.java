@@ -9,8 +9,11 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.ActionCodeSettings;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -37,10 +40,15 @@ public class SignUpActivity extends AppCompatActivity
 
         if(firebaseUser != null) // Cihazdan Daha Önce Giriş Yapılmışsa
         {
-            ProfileActivity.currentEmail = firebaseUser.getEmail(); // Kullanıcının emailini tut
-            Intent intent = new Intent(SignUpActivity.this,FeedActivity.class);
-            startActivity(intent);
-            finish(); // Aktiviteyi Tamamen Kapatır
+            firebaseUser = firebaseAuth.getCurrentUser();
+
+            if(firebaseUser.isEmailVerified())
+            {
+                ProfileActivity.currentEmail = firebaseUser.getEmail(); // Kullanıcının emailini tut
+                Intent intent = new Intent(SignUpActivity.this,FeedActivity.class);
+                startActivity(intent);
+                finish(); // Aktiviteyi Tamamen Kapatır
+            }
         }
     }
 
@@ -51,48 +59,62 @@ public class SignUpActivity extends AppCompatActivity
 
         if(fieldControl(email,password)) // Alanlar Doluysa
         {
-            firebaseAuth.signInWithEmailAndPassword(email,password).addOnSuccessListener(new OnSuccessListener<AuthResult>()
-            {
-                @Override
-                public void onSuccess(AuthResult authResult) // İşlem Başarılıysa
+                firebaseAuth.signInWithEmailAndPassword(email,password).addOnSuccessListener(new OnSuccessListener<AuthResult>()
                 {
-                    ProfileActivity.currentEmail = emailText.getText().toString(); // Kullanıcının emailini tut
-                    Intent intent = new Intent(SignUpActivity.this,FeedActivity.class);
-                    startActivity(intent);
-                    finish(); // Aktiviteyi Tamamen Kapatır
-                }
-            }).addOnFailureListener(new OnFailureListener()
-            {
-                @Override
-                public void onFailure(@NonNull Exception e) // İşlem Başarısızsa
+                    @Override
+                    public void onSuccess(AuthResult authResult) // İşlem Başarılıysa
+                    {
+
+                        firebaseUser = firebaseAuth.getCurrentUser();
+
+                        if(firebaseUser.isEmailVerified())
+                        {
+                            Toast.makeText(SignUpActivity.this,"Giriş Başarılı",Toast.LENGTH_LONG).show();
+
+                            ProfileActivity.currentEmail = emailText.getText().toString(); // Kullanıcının emailini tut
+                            Intent intent = new Intent(SignUpActivity.this,FeedActivity.class);
+                            startActivity(intent);
+                            finish(); // Aktiviteyi Tamamen Kapatır
+                        }
+
+                        else
+                        {
+                            Toast.makeText(SignUpActivity.this,"Lütfen Eposta Adresinizi Onaylayın!",Toast.LENGTH_LONG).show();
+                        }
+
+                    }
+                }).addOnFailureListener(new OnFailureListener()
                 {
-                    if(e.getLocalizedMessage().toString().contains("password is invalid or the user does not have"))
+                    @Override
+                    public void onFailure(@NonNull Exception e) // İşlem Başarısızsa
                     {
-                        Toast.makeText(SignUpActivity.this,"Şifre Yanlış!",Toast.LENGTH_LONG).show();
-                    }
+                        if(e.getLocalizedMessage().toString().contains("password is invalid or the user does not have"))
+                        {
+                            Toast.makeText(SignUpActivity.this,"Şifre Yanlış!",Toast.LENGTH_LONG).show();
+                        }
 
-                    else if(e.getLocalizedMessage().toString().contains("There is no user record"))
-                    {
-                        Toast.makeText(SignUpActivity.this,"E-posta Adresi Kayıtlı Değil!",Toast.LENGTH_LONG).show();
-                    }
+                        else if(e.getLocalizedMessage().toString().contains("There is no user record"))
+                        {
+                            Toast.makeText(SignUpActivity.this,"E-posta Adresi Kayıtlı Değil!",Toast.LENGTH_LONG).show();
+                        }
 
-                    else if(e.getLocalizedMessage().toString().contains("badly formatted"))
-                    {
-                        Toast.makeText(SignUpActivity.this,"E-posta Formatı Yanlış!",Toast.LENGTH_LONG).show();
-                    }
+                        else if(e.getLocalizedMessage().toString().contains("badly formatted"))
+                        {
+                            Toast.makeText(SignUpActivity.this,"E-posta Formatı Yanlış!",Toast.LENGTH_LONG).show();
+                        }
 
-                    else if(e.getLocalizedMessage().toString().contains("We have blocked all requests"))
-                    {
-                        Toast.makeText(SignUpActivity.this,"Çok Fazla Başarısız Giriş Denemesi. Lütfen Daha Sonra Tekrar Deneyiniz!",Toast.LENGTH_LONG).show();
-                    }
+                        else if(e.getLocalizedMessage().toString().contains("We have blocked all requests"))
+                        {
+                            Toast.makeText(SignUpActivity.this,"Çok Fazla Başarısız Giriş Denemesi. Lütfen Daha Sonra Tekrar Deneyiniz!",Toast.LENGTH_LONG).show();
+                        }
 
-                    else
-                    {
-                        Toast.makeText(SignUpActivity.this,e.getLocalizedMessage().toString(),Toast.LENGTH_LONG).show();
+                        else
+                        {
+                            Toast.makeText(SignUpActivity.this,e.getLocalizedMessage().toString(),Toast.LENGTH_LONG).show();
+                        }
                     }
+                });
 
-                }
-            });
         }
     }
 
@@ -108,12 +130,7 @@ public class SignUpActivity extends AppCompatActivity
                 @Override
                 public void onSuccess(AuthResult authResult) // İşlem Başarılıysa
                 {
-                    Toast.makeText(SignUpActivity.this,"Kayıt Başarılı",Toast.LENGTH_LONG).show();
-
-                    ProfileActivity.currentEmail = emailText.getText().toString(); // Kullanıcının emailini tut
-                    Intent intent = new Intent(SignUpActivity.this,FeedActivity.class);
-                    startActivity(intent);
-                    finish(); // Aktiviteyi Tamamen Kapatır
+                    emailVerification(); //Onay maili gönder
                 }
             }).addOnFailureListener(new OnFailureListener()
             {
@@ -144,6 +161,35 @@ public class SignUpActivity extends AppCompatActivity
             });
 
         }
+    }
+
+    public void emailVerification()
+    {
+        firebaseAuth.setLanguageCode("tr");
+        firebaseUser = firebaseAuth.getCurrentUser();
+
+        firebaseUser.sendEmailVerification()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(SignUpActivity.this,"Kayıt Başarılı, Lütfen Eposta Adresinizi Doğrulayınız",Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+    }
+
+    public void updPass(View view)
+    {
+        firebaseAuth.sendPasswordResetEmail(emailText.getText().toString())
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(SignUpActivity.this,"Yenileme Maili Gönderildi",Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
     }
 
     public boolean fieldControl(String email, String password)
