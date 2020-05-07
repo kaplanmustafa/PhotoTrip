@@ -144,6 +144,11 @@ public class ProfileActivity extends AppCompatActivity
         }
     }
 
+    public void followUser(View view)
+    {
+
+    }
+
     @Override
     // geri tuşuna bastığında
     public void onBackPressed()

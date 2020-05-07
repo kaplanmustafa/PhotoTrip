@@ -48,6 +48,7 @@ public class FeedActivity<recyclerView> extends AppCompatActivity
     static boolean updateAct = false;
     static boolean deleteItem = false;
     private Map<String, Object> docData;
+    private ArrayList<String> followed = new ArrayList<>();
     FirebaseUser firebaseUser;
     static ArrayList<String> deleteAccountId = new ArrayList<>();;
 
@@ -345,6 +346,37 @@ public class FeedActivity<recyclerView> extends AppCompatActivity
 
     public void getDataFromFirestore()
     {
+        CollectionReference collectionReference1 = firebaseFirestore.collection("Users");
+
+        collectionReference1.addSnapshotListener(new EventListener<QuerySnapshot>()
+        {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e)
+            {
+                if(e != null)
+                {
+                    Toast.makeText(FeedActivity.this,e.getLocalizedMessage().toString(),Toast.LENGTH_LONG).show();
+                }
+                else
+                {
+                    if(queryDocumentSnapshots != null)
+                    {
+                        for(DocumentSnapshot snapshot : queryDocumentSnapshots.getDocuments())
+                        {
+                            Map<String,Object> data = snapshot.getData();
+
+                            String userId = snapshot.getId();
+
+                            if(userId.matches(ProfileActivity.currentEmail)) // Mevcut hesabın bilgileri
+                            {
+                                followed = (ArrayList<String>)data.get("followed"); // Takip edilenler alınıyor
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
         CollectionReference collectionReference = firebaseFirestore.collection("Posts");
 
         collectionReference.orderBy("date", Query.Direction.DESCENDING).addSnapshotListener(new EventListener<QuerySnapshot>()
@@ -364,28 +396,34 @@ public class FeedActivity<recyclerView> extends AppCompatActivity
                         {
                             Map<String,Object> data = snapshot.getData();
 
-                            String visibility = (String) data.get("visibility");
+                            String userMail = (String) data.get("useremail");
 
-                            if(visibility.matches("true"))
+                            if(followed.contains(userMail) || userMail.matches(ProfileActivity.currentEmail)) // Takip edilenlerin ve kendi fotoğraflarını göster
                             {
-                                String comment = (String) data.get("comment");
-                                String userEmail = (String) data.get("useremail");
-                                String downloadUrl = (String) data.get("downloadurl");
-                                String address = (String) data.get("address");
-                                String latitude = (String) data.get("latitude");
-                                String longitude = (String) data.get("longitude");
-                                String id = snapshot.getId();
+                                String visibility = (String) data.get("visibility");
 
-                                userCommentFromFB.add(comment);
-                                userEmailFromFB.add(userEmail);
-                                userImageFromFB.add(downloadUrl);
-                                userAddressFromFB.add(address);
-                                userLatitudeFromFB.add(latitude);
-                                userLongitudeFromFB.add(longitude);
-                                userIdFromFB.add(id);
+                                if(visibility.matches("true"))
+                                {
+                                    String comment = (String) data.get("comment");
+                                    String userEmail = (String) data.get("useremail");
+                                    String downloadUrl = (String) data.get("downloadurl");
+                                    String address = (String) data.get("address");
+                                    String latitude = (String) data.get("latitude");
+                                    String longitude = (String) data.get("longitude");
+                                    String id = snapshot.getId();
 
-                                feedRecyclerAdapter.notifyDataSetChanged();
+                                    userCommentFromFB.add(comment);
+                                    userEmailFromFB.add(userEmail);
+                                    userImageFromFB.add(downloadUrl);
+                                    userAddressFromFB.add(address);
+                                    userLatitudeFromFB.add(latitude);
+                                    userLongitudeFromFB.add(longitude);
+                                    userIdFromFB.add(id);
+
+                                    feedRecyclerAdapter.notifyDataSetChanged();
+                                }
                             }
+
                         }
                     }
                 }
