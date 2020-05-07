@@ -72,6 +72,7 @@ public class ProfileActivity extends AppCompatActivity
     TextView aboutText;
     ImageView profilePhoto;
     Button editButton;
+    Button followButton;
     Button archiveButton;
     RecyclerView recyclerView;
 
@@ -88,6 +89,7 @@ public class ProfileActivity extends AppCompatActivity
         profilePhoto = findViewById(R.id.profilePhoto);
         profilePhoto.setImageResource(R.drawable.user);
         editButton = findViewById(R.id.editButton);
+        followButton = findViewById(R.id.followButton);
         archiveButton = findViewById(R.id.archiveButton);
         recyclerView = findViewById(R.id.recyclerProfileView);
 
@@ -407,7 +409,7 @@ public class ProfileActivity extends AppCompatActivity
 
                             if(showUser == null)
                             {
-                                if(userEmail.matches(currentEmail)) // Profil fotoğrafını göster
+                                if(userEmail.matches(currentEmail)) // Kendi Profili
                                 {
                                     String fullName = (String) data.get("fullname");
                                     String aboutMe = (String) data.get("aboutme");
@@ -415,6 +417,9 @@ public class ProfileActivity extends AppCompatActivity
 
                                     nameText.setText(fullName);
                                     aboutText.setText(aboutMe);
+                                    editButton.setVisibility(View.VISIBLE);
+                                    archiveButton.setVisibility(View.VISIBLE);
+                                    followButton.setVisibility(View.INVISIBLE);
 
                                     if(!ppUrl.matches("null"))
                                     {
@@ -432,9 +437,17 @@ public class ProfileActivity extends AppCompatActivity
                             }
                             else
                             {
-                                if(!showUser.matches(currentEmail)) // Başka Profile Bakılınca Düzenleyi Kaldır
+                                if(!showUser.matches(currentEmail)) // Başka Profile Bakıyor
                                 {
                                     editButton.setVisibility(View.INVISIBLE);
+                                    archiveButton.setVisibility(View.INVISIBLE);
+                                    followButton.setVisibility(View.VISIBLE);
+                                }
+                                else // Kendi profiline bakıyor
+                                {
+                                    editButton.setVisibility(View.VISIBLE);
+                                    archiveButton.setVisibility(View.VISIBLE);
+                                    followButton.setVisibility(View.INVISIBLE);
                                 }
 
                                 if(userEmail.matches(showUser))                                 {
