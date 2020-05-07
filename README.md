@@ -12,4 +12,4 @@ Hesap silme.
 Paylaşılan fotoğrafı arşive alma.
 Arşivdeki fotoğrafı geri yükleme veya tamamen silme.
 
-![Image description](https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg)
+![Image description](https://github.com/MstfKaplan/PhotoTrip/blob/master/logo.png)
