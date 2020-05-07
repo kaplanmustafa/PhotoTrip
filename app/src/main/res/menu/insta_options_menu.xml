@@ -7,10 +7,20 @@
         android:title="Fotoğraf Paylaş"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/profile"
-        android:icon="@color/colorPrimaryDark"
-        android:title="Profil">
+    android:id="@+id/profile"
+    android:icon="@color/colorPrimaryDark"
+    android:title="Profil">
 
+    </item>
+    <item
+        android:id="@+id/updatepassword"
+        android:icon="@color/colorPrimaryDark"
+        android:title="Şifre Değiştir">
+    </item>
+    <item
+        android:id="@+id/deleteaccount"
+        android:icon="@color/colorPrimaryDark"
+        android:title="Hesabı Sil">
     </item>
     <item android:id="@+id/signout"
         android:title="Çıkış Yap"

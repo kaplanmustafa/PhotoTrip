@@ -36,7 +36,7 @@
         android:id="@+id/button3"
         android:layout_width="wrap_content"
         android:layout_height="44dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:backgroundTint="#FF9800"
         android:onClick="signUpClicked"
         android:text="KAYDOL"
@@ -69,13 +69,15 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/logo" />
 
-    <Button
-        android:id="@+id/button"
+    <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:onClick="updPass"
-        android:text="YENİLE"
-        app:layout_constraintStart_toEndOf="@+id/button3"
-        app:layout_constraintTop_toTopOf="@+id/button3" />
+        android:layout_marginTop="24dp"
+        android:onClick="passwordUpdateMail"
+        android:text="Şifremi Unuttum"
+        app:layout_constraintEnd_toEndOf="@+id/button3"
+        app:layout_constraintStart_toStartOf="@+id/button3"
+        app:layout_constraintTop_toBottomOf="@+id/button3" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

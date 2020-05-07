@@ -34,7 +34,7 @@
             android:name=".UploadActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
 
-        <activity android:name=".FeedActivity" />
+        <activity android:name=".FeedActivity" android:theme="@style/Theme.AppCompat.DayNight"/>
 
         <activity
             android:name=".SignUpActivity"

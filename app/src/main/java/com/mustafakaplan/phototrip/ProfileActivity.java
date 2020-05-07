@@ -45,7 +45,7 @@ public class ProfileActivity extends AppCompatActivity
     static String currentEmail="";
     static boolean updatePhoto=false;
     String showUser;
-    String ppUrl;
+    String ppUrl = "null";
     String imageName = "";
 
     private FirebaseStorage firebaseStorage;

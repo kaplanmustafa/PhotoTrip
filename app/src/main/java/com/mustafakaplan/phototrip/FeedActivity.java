@@ -2,11 +2,13 @@ package com.mustafakaplan.phototrip;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -14,9 +16,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -38,6 +43,7 @@ public class FeedActivity<recyclerView> extends AppCompatActivity
     static boolean updateAct = false;
     static boolean deleteItem = false;
     private Map<String, Object> docData;
+    FirebaseUser firebaseUser;
 
     ArrayList<String> userEmailFromFB;
     ArrayList<String> userCommentFromFB;
@@ -99,6 +105,91 @@ public class FeedActivity<recyclerView> extends AppCompatActivity
             startActivity(intentToProfile);
             intentToProfile.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // Bütün aktiviteleri kapat
             finish();
+        }
+        else if(item.getItemId() == R.id.updatepassword) // Şifre Değiştir
+        {
+            AlertDialog.Builder alert = new AlertDialog.Builder(FeedActivity.this);
+
+            alert.setTitle("Onay");
+            alert.setMessage("Şifre Değiştirme Maili Almak İstiyor musunuz?");
+
+            alert.setPositiveButton("Evet", new DialogInterface.OnClickListener()
+            {
+                @Override
+                public void onClick(DialogInterface dialog, int which)
+                {
+                    firebaseAuth.sendPasswordResetEmail(ProfileActivity.currentEmail)
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful())
+                                    {
+                                        Toast.makeText(FeedActivity.this,"Şifre Yenileme Maili Gönderildi, Lütfen Kontrol Edin",Toast.LENGTH_LONG).show();
+                                    }
+                                    else
+                                    {
+                                        Toast.makeText(FeedActivity.this,"Mail Gönderilirken Sorun Oluştu!",Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                            });
+
+                }
+            });
+
+            alert.setNegativeButton("Hayır", new DialogInterface.OnClickListener()
+            {
+                @Override
+                public void onClick(DialogInterface dialog, int which)
+                {
+
+                }
+            });
+
+            alert.show();
+        }
+        else if(item.getItemId() == R.id.deleteaccount) // Hesabı Sil
+        {
+            AlertDialog.Builder alert = new AlertDialog.Builder(FeedActivity.this);
+
+            alert.setTitle("Onay");
+            alert.setMessage("Hesabınızı Kalıcı Olarak Silmek İstiyor musunuz?");
+
+            alert.setPositiveButton("Evet", new DialogInterface.OnClickListener()
+            {
+                @Override
+                public void onClick(DialogInterface dialog, int which)
+                {
+                    firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+                    firebaseUser.delete()
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        Toast.makeText(FeedActivity.this,"Hesap Başarıyla Silindi",Toast.LENGTH_LONG).show();
+                                        Intent intentToProfile = new Intent(FeedActivity.this, SignUpActivity.class);
+                                        startActivity(intentToProfile);
+                                        intentToProfile.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // Bütün aktiviteleri kapat
+                                        finish();
+                                    }
+                                }
+                            });
+
+
+                }
+            });
+
+            alert.setNegativeButton("Hayır", new DialogInterface.OnClickListener()
+            {
+                @Override
+                public void onClick(DialogInterface dialog, int which)
+                {
+
+                }
+            });
+
+            alert.show();
+
         }
         else if(item.getItemId() == R.id.signout) // Çıkış Yap
         {

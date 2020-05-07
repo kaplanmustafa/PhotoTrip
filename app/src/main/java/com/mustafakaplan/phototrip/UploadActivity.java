@@ -135,6 +135,8 @@ public class UploadActivity extends AppCompatActivity
                                 {
 
                                     Toast.makeText(UploadActivity.this,"Tamamlandı",Toast.LENGTH_LONG).show();
+                                    UploadActivity.address = null;
+                                    UploadActivity.location = null;
                                     Intent intent = new Intent(UploadActivity.this,FeedActivity.class);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // Bütün aktiviteleri kapat
                                     startActivity(intent);

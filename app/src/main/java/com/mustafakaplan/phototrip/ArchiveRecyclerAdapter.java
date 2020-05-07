@@ -25,6 +25,7 @@ public class ArchiveRecyclerAdapter extends RecyclerView.Adapter<ArchiveRecycler
     private  ArrayList<String> userImageList;
     private  ArrayList<String> userAddressList;
     private  ArrayList<String> documentIdList;
+    Boolean control = false;
 
     public ArchiveRecyclerAdapter(ArrayList<String> userCommentList, ArrayList<String> userImageList,ArrayList<String> userAddressList,ArrayList<String> documentIdList)
     {
@@ -49,117 +50,141 @@ public class ArchiveRecyclerAdapter extends RecyclerView.Adapter<ArchiveRecycler
     @Override
     public void onBindViewHolder(@NonNull final PostHolder holder, final int position)
     {
-        holder.commentText.setText(userCommentList.get(position));
-        holder.addressText.setText(userAddressList.get(position));
-        Picasso.get().load(userImageList.get(position)).into(holder.imageView);
-
-
-        // Arşivdeki Gönderiyi Tamamen Sil
-        holder.deleteButton.setOnClickListener(new View.OnClickListener()
+        if(control)
         {
-            @Override
-            public void onClick(final View v)
-            {
-                AlertDialog.Builder alert = new AlertDialog.Builder(v.getContext());
+            holder.imageView.setImageResource(R.drawable.archive);
+            holder.deleteButton.setVisibility(View.INVISIBLE);
+            holder.restoreButton.setVisibility(View.INVISIBLE);
+            holder.addressText.setText("");
+            holder.commentText.setText("");
 
-                alert.setTitle("Onay");
-                alert.setMessage("Gönderi Tamamen Silinsin mi?");
-
-                alert.setPositiveButton("Evet", new DialogInterface.OnClickListener()
-                {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which)
-                    {
-                        userImageList.remove(position);
-                        userAddressList.remove(position);
-                        userCommentList.remove(position);
-
-                        ProfileActivity.deletePost = true;
-                        ProfileActivity.deleteDoc.add(documentIdList.get(position));
-
-                        documentIdList.remove(position);
-
-                        notifyItemRemoved(position);
-                        notifyItemRangeChanged(position, documentIdList.size());
-
-                        Toast.makeText(v.getContext(),"Gönderi Silindi",Toast.LENGTH_LONG).show();
-                    }
-                });
-
-                alert.setNegativeButton("Hayır", new DialogInterface.OnClickListener()
-                {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which)
-                    {
-
-                    }
-                });
-
-                alert.show();
-            }
-        });
-
-        // Arşivdeki Gönderiyi Geri Yükle
-        holder.restoreButton.setOnClickListener(new View.OnClickListener()
+            control = false;
+        }
+        else
         {
-            @Override
-            public void onClick(final View v)
+            holder.deleteButton.setVisibility(View.VISIBLE);
+            holder.restoreButton.setVisibility(View.VISIBLE);
+
+            holder.commentText.setText(userCommentList.get(position));
+            holder.addressText.setText(userAddressList.get(position));
+            Picasso.get().load(userImageList.get(position)).into(holder.imageView);
+
+            // Arşivdeki Gönderiyi Tamamen Sil
+            holder.deleteButton.setOnClickListener(new View.OnClickListener()
             {
-                AlertDialog.Builder alert = new AlertDialog.Builder(v.getContext());
-
-                alert.setTitle("Onay");
-                alert.setMessage("Gönderi Geri Yüklensin mi?");
-
-                alert.setPositiveButton("Evet", new DialogInterface.OnClickListener()
+                @Override
+                public void onClick(final View v)
                 {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which)
+                    AlertDialog.Builder alert = new AlertDialog.Builder(v.getContext());
+
+                    alert.setTitle("Onay");
+                    alert.setMessage("Gönderi Tamamen Silinsin mi?");
+
+                    alert.setPositiveButton("Evet", new DialogInterface.OnClickListener()
                     {
-                        userImageList.remove(position);
-                        userAddressList.remove(position);
-                        userCommentList.remove(position);
+                        @Override
+                        public void onClick(DialogInterface dialog, int which)
+                        {
+                            userImageList.remove(position);
+                            userAddressList.remove(position);
+                            userCommentList.remove(position);
 
-                        ProfileActivity.updateActivity = true;
-                        ProfileActivity.updateDoc.add(documentIdList.get(position));
+                            ProfileActivity.deletePost = true;
+                            ProfileActivity.deleteDoc.add(documentIdList.get(position));
 
-                        documentIdList.remove(position);
+                            documentIdList.remove(position);
 
-                        notifyItemRemoved(position);
-                        notifyItemRangeChanged(position, documentIdList.size());
+                            notifyItemRemoved(position);
+                            notifyItemRangeChanged(position, documentIdList.size());
 
-                        Toast.makeText(v.getContext(),"Gönderi Geri Yüklendi",Toast.LENGTH_LONG).show();
-                    }
-                });
+                            Toast.makeText(v.getContext(),"Gönderi Silindi",Toast.LENGTH_LONG).show();
+                        }
+                    });
 
-                alert.setNegativeButton("Hayır", new DialogInterface.OnClickListener()
-                {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which)
+                    alert.setNegativeButton("Hayır", new DialogInterface.OnClickListener()
                     {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which)
+                        {
 
-                    }
-                });
+                        }
+                    });
 
-                alert.show();
-            }
-        });
-
-        holder.addressText.setOnClickListener(new View.OnClickListener() // Konum Bilgisi Click
-        {
-            @Override
-            public void onClick(View v)
-            {
-                if (!holder.addressText.getText().toString().matches(""))
-                {
-                    v.getContext().startActivity(new Intent(v.getContext(), MapsActivity.class).putExtra("locationLatitude",ProfileActivity.userLatitudeFromFB.get(position)).putExtra("locationLongitude",ProfileActivity.userLongitudeFromFB.get(position)).putExtra("locationAddress",ProfileActivity.userAddressFromFB.get(position)));
+                    alert.show();
                 }
-            }
-        });
+            });
+
+            // Arşivdeki Gönderiyi Geri Yükle
+            holder.restoreButton.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(final View v)
+                {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(v.getContext());
+
+                    alert.setTitle("Onay");
+                    alert.setMessage("Gönderi Geri Yüklensin mi?");
+
+                    alert.setPositiveButton("Evet", new DialogInterface.OnClickListener()
+                    {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which)
+                        {
+                            userImageList.remove(position);
+                            userAddressList.remove(position);
+                            userCommentList.remove(position);
+
+                            ProfileActivity.updateActivity = true;
+                            ProfileActivity.updateDoc.add(documentIdList.get(position));
+
+                            documentIdList.remove(position);
+
+                            notifyItemRemoved(position);
+                            notifyItemRangeChanged(position, documentIdList.size());
+
+                            Toast.makeText(v.getContext(),"Gönderi Geri Yüklendi",Toast.LENGTH_LONG).show();
+                        }
+                    });
+
+                    alert.setNegativeButton("Hayır", new DialogInterface.OnClickListener()
+                    {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which)
+                        {
+
+                        }
+                    });
+
+                    alert.show();
+                }
+            });
+
+            holder.addressText.setOnClickListener(new View.OnClickListener() // Konum Bilgisi Click
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    if (!holder.addressText.getText().toString().matches(""))
+                    {
+                        v.getContext().startActivity(new Intent(v.getContext(), MapsActivity.class).putExtra("locationLatitude",ProfileActivity.userLatitudeFromFB.get(position)).putExtra("locationLongitude",ProfileActivity.userLongitudeFromFB.get(position)).putExtra("locationAddress",ProfileActivity.userAddressFromFB.get(position)));
+                    }
+                }
+            });
+        }
+
+
+
     }
 
     @Override
     public int getItemCount() // Listedeki Eleman-Satır Sayısı
     {
+        if(userImageList.size() == 0)
+        {
+            control = true;
+            return userImageList.size()+1;
+        }
+
         return userImageList.size();
     }
 

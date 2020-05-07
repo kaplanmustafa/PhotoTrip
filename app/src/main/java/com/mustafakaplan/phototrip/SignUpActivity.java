@@ -179,17 +179,30 @@ public class SignUpActivity extends AppCompatActivity
                 });
     }
 
-    public void updPass(View view)
+    public void passwordUpdateMail(View view)
     {
-        firebaseAuth.sendPasswordResetEmail(emailText.getText().toString())
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(SignUpActivity.this,"Yenileme Maili Gönderildi",Toast.LENGTH_LONG).show();
+        if(!emailText.getText().toString().matches(""))
+        {
+            firebaseAuth.sendPasswordResetEmail(emailText.getText().toString())
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful())
+                            {
+                                Toast.makeText(SignUpActivity.this,"Şifre Yenileme Maili Gönderildi, Lütfen Kontrol Edin",Toast.LENGTH_LONG).show();
+                            }
+                            else
+                            {
+                                Toast.makeText(SignUpActivity.this,"Lütfen Geçerli Bir Hesap ile Tekrar Deneyin!",Toast.LENGTH_LONG).show();
+                            }
                         }
-                    }
-                });
+                    });
+        }
+
+        else
+        {
+            Toast.makeText(SignUpActivity.this,"Lütfen Eposta Girin!",Toast.LENGTH_LONG).show();
+        }
     }
 
     public boolean fieldControl(String email, String password)
