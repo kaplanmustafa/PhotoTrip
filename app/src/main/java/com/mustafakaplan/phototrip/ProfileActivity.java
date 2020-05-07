@@ -415,6 +415,12 @@ public class ProfileActivity extends AppCompatActivity
                                     {
                                         Picasso.get().load(ppUrl).into(profilePhoto);
                                     }
+                                    else
+                                    {
+                                        profilePhoto.setImageResource(R.drawable.user);
+                                        nameText.setText("Ad Soyad");
+                                        aboutText.setText("Hakkımda");
+                                    }
 
                                     break;
                                 }
