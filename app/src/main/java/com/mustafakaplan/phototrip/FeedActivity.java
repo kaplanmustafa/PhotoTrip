@@ -29,6 +29,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,15 +39,20 @@ import java.util.Map;
 public class FeedActivity<recyclerView> extends AppCompatActivity
 {
     private FirebaseAuth firebaseAuth;
+    private FirebaseStorage firebaseStorage;
     private FirebaseFirestore firebaseFirestore;
+    private StorageReference storageReference;
+    String imageName = "";
 
     static ArrayList<String> deleteDoc = new ArrayList<>();
     static boolean updateAct = false;
     static boolean deleteItem = false;
     private Map<String, Object> docData;
     FirebaseUser firebaseUser;
+    static ArrayList<String> deleteAccountId = new ArrayList<>();;
 
     ArrayList<String> userEmailFromFB;
+    ArrayList<String> userIdFromFB;
     ArrayList<String> userCommentFromFB;
     ArrayList<String> userImageFromFB;
     static ArrayList<String> userAddressFromFB;
@@ -89,6 +96,48 @@ public class FeedActivity<recyclerView> extends AppCompatActivity
         }
 
         deleteDoc.clear();
+    }
+
+    public void deleteAccount()
+    {
+        for(String docs : deleteAccountId)
+        {
+            System.out.println("**"+ docs);
+            getImageNameFromFirestore(docs);
+
+            firebaseFirestore.collection("Posts").document(docs).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid)
+                {
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e)
+                {
+                    System.out.println(e);
+                }
+            });
+
+        }
+
+        deleteDoc.clear();
+
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        firebaseUser.delete()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(FeedActivity.this,"Hesap Başarıyla Silindi",Toast.LENGTH_LONG).show();
+                            Intent intentToProfile = new Intent(FeedActivity.this, SignUpActivity.class);
+                            startActivity(intentToProfile);
+                            intentToProfile.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // Bütün aktiviteleri kapat
+                            finish();
+                        }
+                    }
+                });
     }
 
     @Override
@@ -159,23 +208,14 @@ public class FeedActivity<recyclerView> extends AppCompatActivity
                 @Override
                 public void onClick(DialogInterface dialog, int which)
                 {
-                    firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-
-                    firebaseUser.delete()
-                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()) {
-                                        Toast.makeText(FeedActivity.this,"Hesap Başarıyla Silindi",Toast.LENGTH_LONG).show();
-                                        Intent intentToProfile = new Intent(FeedActivity.this, SignUpActivity.class);
-                                        startActivity(intentToProfile);
-                                        intentToProfile.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // Bütün aktiviteleri kapat
-                                        finish();
-                                    }
-                                }
-                            });
-
-
+                    for(int i =0; i<userEmailFromFB.size(); i++)
+                    {
+                        if(ProfileActivity.currentEmail.matches(userEmailFromFB.get(i)))
+                        {
+                            deleteAccountId.add(userIdFromFB.get(i));
+                        }
+                    }
+                    deleteAccount();
                 }
             });
 
@@ -216,9 +256,12 @@ public class FeedActivity<recyclerView> extends AppCompatActivity
         userAddressFromFB = new ArrayList<>();
         userLatitudeFromFB = new ArrayList<>();
         userLongitudeFromFB = new ArrayList<>();
+        userIdFromFB = new ArrayList<>();
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
+        firebaseStorage = FirebaseStorage.getInstance();
+        storageReference = firebaseStorage.getReference();
 
         if(deleteItem)
         {
@@ -292,6 +335,7 @@ public class FeedActivity<recyclerView> extends AppCompatActivity
                                 String address = (String) data.get("address");
                                 String latitude = (String) data.get("latitude");
                                 String longitude = (String) data.get("longitude");
+                                String id = snapshot.getId();
 
                                 userCommentFromFB.add(comment);
                                 userEmailFromFB.add(userEmail);
@@ -299,6 +343,7 @@ public class FeedActivity<recyclerView> extends AppCompatActivity
                                 userAddressFromFB.add(address);
                                 userLatitudeFromFB.add(latitude);
                                 userLongitudeFromFB.add(longitude);
+                                userIdFromFB.add(id);
 
                                 feedRecyclerAdapter.notifyDataSetChanged();
                             }
@@ -307,6 +352,58 @@ public class FeedActivity<recyclerView> extends AppCompatActivity
                 }
             }
         });
+    }
+
+    public void getImageNameFromFirestore(final String docs)
+    {
+        CollectionReference collectionReference3 = firebaseFirestore.collection("Posts");
+
+        collectionReference3.addSnapshotListener(new EventListener<QuerySnapshot>()
+        {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e)
+            {
+                if(e != null)
+                {
+                    Toast.makeText(FeedActivity.this,e.getLocalizedMessage().toString(),Toast.LENGTH_LONG).show();
+                }
+                else
+                {
+                    if(queryDocumentSnapshots != null)
+                    {
+                        for(DocumentSnapshot snapshot : queryDocumentSnapshots.getDocuments())
+                        {
+                            Map<String,Object> data = snapshot.getData();
+
+                            if(snapshot.getId().matches(docs))
+                            {
+                                imageName = (String) data.get("imagename");
+
+                                // Resmi Storage'tan sil
+                                storageReference.child(imageName).delete().addOnSuccessListener(new OnSuccessListener<Void>()
+                                {
+                                    @Override
+                                    public void onSuccess(Void aVoid)
+                                    {
+
+                                    }
+                                }).addOnFailureListener(new OnFailureListener()
+                                {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e)
+                                    {
+                                        System.out.println(e);
+                                    }
+                                });
+
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
     }
 
 }
