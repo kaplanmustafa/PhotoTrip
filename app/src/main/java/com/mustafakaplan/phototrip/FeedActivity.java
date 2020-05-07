@@ -190,10 +190,7 @@ public class FeedActivity<recyclerView> extends AppCompatActivity
         }
         else if(item.getItemId() == R.id.profile) // Arama
         {
-            Intent intentToProfile = new Intent(FeedActivity.this, ProfileActivity.class);
-            startActivity(intentToProfile);
-            intentToProfile.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // Bütün aktiviteleri kapat
-            finish();
+            
         }
         else if(item.getItemId() == R.id.profile) // Profile Git
         {
