@@ -188,6 +188,13 @@ public class FeedActivity<recyclerView> extends AppCompatActivity
             Intent intentToUpload = new Intent(FeedActivity.this, UploadActivity.class);
             startActivity(intentToUpload);
         }
+        else if(item.getItemId() == R.id.profile) // Arama
+        {
+            Intent intentToProfile = new Intent(FeedActivity.this, ProfileActivity.class);
+            startActivity(intentToProfile);
+            intentToProfile.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // Bütün aktiviteleri kapat
+            finish();
+        }
         else if(item.getItemId() == R.id.profile) // Profile Git
         {
             Intent intentToProfile = new Intent(FeedActivity.this, ProfileActivity.class);

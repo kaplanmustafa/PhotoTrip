@@ -7,6 +7,11 @@
         android:title="Fotoğraf Paylaş"
         app:showAsAction="ifRoom" />
     <item
+        android:id="@+id/search"
+        android:icon="@drawable/searching"
+        android:title="Arama"
+        app:showAsAction="ifRoom" />
+    <item
     android:id="@+id/profile"
     android:icon="@color/colorPrimaryDark"
     android:title="Profil">
