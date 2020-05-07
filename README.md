@@ -12,4 +12,4 @@ Hesap silme.
 Paylaşılan fotoğrafı arşive alma.
 Arşivdeki fotoğrafı geri yükleme veya tamamen silme.
 
-![Image description](https://github.com/MstfKaplan/PhotoTrip/blob/master/logo.png)
+![PhotoTrip](https://github.com/MstfKaplan/PhotoTrip/blob/master/logo.png)
