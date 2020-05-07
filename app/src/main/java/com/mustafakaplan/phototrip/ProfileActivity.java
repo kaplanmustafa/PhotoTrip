@@ -439,7 +439,17 @@ public class ProfileActivity extends AppCompatActivity
 
                                     nameText.setText(fullName);
                                     aboutText.setText(aboutMe);
-                                    Picasso.get().load(ppUrl).into(profilePhoto);
+
+                                    if(!ppUrl.matches("null"))
+                                    {
+                                        Picasso.get().load(ppUrl).into(profilePhoto);
+                                    }
+                                    else
+                                    {
+                                        profilePhoto.setImageResource(R.drawable.user);
+                                        nameText.setText("Ad Soyad");
+                                        aboutText.setText("Hakkımda");
+                                    }
 
                                     break;
                                 }
