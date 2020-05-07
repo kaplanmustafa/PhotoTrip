@@ -100,9 +100,46 @@ public class FeedActivity<recyclerView> extends AppCompatActivity
 
     public void deleteAccount()
     {
+        // PP Sil
+        final String imageName = "profileimages/" + ProfileActivity.currentEmail + ".jpg";
+
+        // Resmi Storage'tan sil
+        storageReference.child(imageName).delete().addOnSuccessListener(new OnSuccessListener<Void>()
+        {
+            @Override
+            public void onSuccess(Void aVoid)
+            {
+
+            }
+        }).addOnFailureListener(new OnFailureListener()
+        {
+            @Override
+            public void onFailure(@NonNull Exception e)
+            {
+                System.out.println(e);
+            }
+        });
+
+        // Profil Bilgilerini Sil
+
+        firebaseFirestore.collection("Users").document(ProfileActivity.currentEmail).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid)
+            {
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e)
+            {
+                System.out.println(e);
+            }
+        });
+
+        //  Gönderileri Sil
+
         for(String docs : deleteAccountId)
         {
-            System.out.println("**"+ docs);
             getImageNameFromFirestore(docs);
 
             firebaseFirestore.collection("Posts").document(docs).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -122,6 +159,8 @@ public class FeedActivity<recyclerView> extends AppCompatActivity
         }
 
         deleteDoc.clear();
+
+        // Hesabı Sil
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
