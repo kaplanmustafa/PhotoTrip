@@ -1,5 +1,4 @@
 # PhotoTrip
-
 [PhotoTrip](https://github.com/MstfKaplan/PhotoTrip/blob/master/app/src/main/res/drawable-ldpi/logo.png)
 
 
