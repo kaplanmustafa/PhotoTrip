@@ -15,6 +15,7 @@ import android.view.View;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
@@ -50,6 +51,7 @@ public class ProfileActivity extends AppCompatActivity
 
     private FirebaseStorage firebaseStorage;
     private StorageReference storageReference;
+    static ArrayList<String> followed = new ArrayList<>();
 
     static boolean updateActivity = false;
     static boolean deletePost = false;
@@ -148,7 +150,51 @@ public class ProfileActivity extends AppCompatActivity
 
     public void followUser(View view)
     {
+        if (followButton.getText().toString().matches("TAKİP")) // Takibi Bırak
+        {
+            String unFollowUser = showUser;
+            followed.remove(unFollowUser);
 
+            docData = new HashMap<>();
+            docData.put("followed", followed);
+
+            firebaseFirestore.collection("Users").document(currentEmail).update(docData).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+
+                    Toast.makeText(ProfileActivity.this,"Takip Bırakıldı",Toast.LENGTH_LONG).show();
+                    followButton.setText("TAKİP ET");
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+
+                }
+            });
+        }
+
+        else if(followButton.getText().toString().matches("TAKİP ET")) // Takip Et
+        {
+            String followUser = showUser;
+            followed.add(followUser);
+
+            docData = new HashMap<>();
+            docData.put("followed", followed);
+
+            firebaseFirestore.collection("Users").document(currentEmail).update(docData).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+
+                    Toast.makeText(ProfileActivity.this,"Takip Edildi",Toast.LENGTH_LONG).show();
+                    followButton.setText("TAKİP");
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+
+                }
+            });
+        }
     }
 
     @Override

@@ -370,6 +370,7 @@ public class FeedActivity<recyclerView> extends AppCompatActivity
                             if(userId.matches(ProfileActivity.currentEmail)) // Mevcut hesabın bilgileri
                             {
                                 followed = (ArrayList<String>)data.get("followed"); // Takip edilenler alınıyor
+                                ProfileActivity.followed = followed;
                             }
                         }
                     }
@@ -398,29 +399,32 @@ public class FeedActivity<recyclerView> extends AppCompatActivity
 
                             String userMail = (String) data.get("useremail");
 
-                            if(followed.contains(userMail) || userMail.matches(ProfileActivity.currentEmail)) // Takip edilenlerin ve kendi fotoğraflarını göster
+                            if(followed != null && userMail != null)
                             {
-                                String visibility = (String) data.get("visibility");
-
-                                if(visibility.matches("true"))
+                                if(followed.contains(userMail) || userMail.matches(ProfileActivity.currentEmail)) // Takip edilenlerin ve kendi fotoğraflarını göster
                                 {
-                                    String comment = (String) data.get("comment");
-                                    String userEmail = (String) data.get("useremail");
-                                    String downloadUrl = (String) data.get("downloadurl");
-                                    String address = (String) data.get("address");
-                                    String latitude = (String) data.get("latitude");
-                                    String longitude = (String) data.get("longitude");
-                                    String id = snapshot.getId();
+                                    String visibility = (String) data.get("visibility");
 
-                                    userCommentFromFB.add(comment);
-                                    userEmailFromFB.add(userEmail);
-                                    userImageFromFB.add(downloadUrl);
-                                    userAddressFromFB.add(address);
-                                    userLatitudeFromFB.add(latitude);
-                                    userLongitudeFromFB.add(longitude);
-                                    userIdFromFB.add(id);
+                                    if(visibility.matches("true"))
+                                    {
+                                        String comment = (String) data.get("comment");
+                                        String userEmail = (String) data.get("useremail");
+                                        String downloadUrl = (String) data.get("downloadurl");
+                                        String address = (String) data.get("address");
+                                        String latitude = (String) data.get("latitude");
+                                        String longitude = (String) data.get("longitude");
+                                        String id = snapshot.getId();
 
-                                    feedRecyclerAdapter.notifyDataSetChanged();
+                                        userCommentFromFB.add(comment);
+                                        userEmailFromFB.add(userEmail);
+                                        userImageFromFB.add(downloadUrl);
+                                        userAddressFromFB.add(address);
+                                        userLatitudeFromFB.add(latitude);
+                                        userLongitudeFromFB.add(longitude);
+                                        userIdFromFB.add(id);
+
+                                        feedRecyclerAdapter.notifyDataSetChanged();
+                                    }
                                 }
                             }
 

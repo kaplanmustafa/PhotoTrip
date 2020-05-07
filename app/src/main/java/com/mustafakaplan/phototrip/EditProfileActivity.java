@@ -137,7 +137,7 @@ public class EditProfileActivity extends AppCompatActivity
                                 userData.put("fullname",fullName);
                                 userData.put("aboutme", aboutMe);
 
-                                firebaseFirestore.collection("Users").document(userEmail).set(userData).addOnSuccessListener(new OnSuccessListener<Void>()
+                                firebaseFirestore.collection("Users").document(userEmail).update(userData).addOnSuccessListener(new OnSuccessListener<Void>()
                                 {
                                     @Override
                                     public void onSuccess(Void aVoid)
@@ -260,7 +260,7 @@ public class EditProfileActivity extends AppCompatActivity
                 userData.put("fullname",fullName);
                 userData.put("aboutme", aboutMe);
 
-                firebaseFirestore.collection("Users").document(userEmail).set(userData).addOnSuccessListener(new OnSuccessListener<Void>()
+                firebaseFirestore.collection("Users").document(userEmail).update(userData).addOnSuccessListener(new OnSuccessListener<Void>()
                 {
                     @Override
                     public void onSuccess(Void aVoid)
