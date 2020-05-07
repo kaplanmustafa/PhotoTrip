@@ -2,6 +2,8 @@
 
 [PhotoTrip](https://github.com/MstfKaplan/PhotoTrip/blob/master/app/src/main/res/drawable-ldpi/logo.png)
 
+
+
 Android Gezi Fotoğrafları Paylaşma Sosyal Medya Uygulaması
 
 Mail adresine gelen doğrulamayla hesap açma.
