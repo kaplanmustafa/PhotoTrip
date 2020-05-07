@@ -285,6 +285,8 @@ public class ProfileActivity extends AppCompatActivity
 
                             else
                             {
+                                photoDelete = true;
+
                                 if(!showUser.matches(currentEmail)) // Başka Profile Bakılınca Düzenle ve Arşivi Kaldır
                                 {
                                     editButton.setVisibility(View.INVISIBLE);
@@ -303,12 +305,14 @@ public class ProfileActivity extends AppCompatActivity
                                         String address = (String) data.get("address");
                                         String latitude = (String) data.get("latitude");
                                         String longitude = (String) data.get("longitude");
+                                        String documentId = snapshot.getId();
 
                                         userCommentFromFB.add(comment);
                                         userImageFromFB.add(downloadUrl);
                                         userAddressFromFB.add(address);
                                         userLatitudeFromFB.add(latitude);
                                         userLongitudeFromFB.add(longitude);
+                                        documentIdFromFB.add(documentId);
 
                                         profileRecycleAdapter.notifyDataSetChanged();
                                     }

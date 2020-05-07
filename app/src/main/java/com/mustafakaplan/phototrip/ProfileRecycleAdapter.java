@@ -34,8 +34,6 @@ public class ProfileRecycleAdapter extends RecyclerView.Adapter<ProfileRecycleAd
     private ArrayList<String> userAddressList;
     private ArrayList<String> documentIdList;
 
-    private Map<String, Object> docData;
-
     public ProfileRecycleAdapter(ArrayList<String> userCommentList, ArrayList<String> userImageList,ArrayList<String> userAddressList,ArrayList<String> documentIdList)
     {
         this.userCommentList = userCommentList;
@@ -70,7 +68,7 @@ public class ProfileRecycleAdapter extends RecyclerView.Adapter<ProfileRecycleAd
             public boolean onLongClick(final View v)
             {
 
-                if(ProfileActivity.photoDelete == true) // Kendi Profilinde
+                if(ProfileActivity.photoDelete) // Kendi Profilinde
                 {
                     AlertDialog.Builder alert = new AlertDialog.Builder(v.getContext());
 
