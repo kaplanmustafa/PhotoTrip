@@ -252,7 +252,7 @@ public class FeedActivity<recyclerView> extends AppCompatActivity
             Intent intentToUpload = new Intent(FeedActivity.this, UploadActivity.class);
             startActivity(intentToUpload);
         }
-        else if(item.getItemId() == R.id.profile) // Arama
+        else if(item.getItemId() == R.id.search) // Arama
         {
 
         }
