@@ -6,6 +6,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -43,6 +44,7 @@ public class FeedActivity<recyclerView> extends AppCompatActivity
     private FirebaseFirestore firebaseFirestore;
     private StorageReference storageReference;
     String imageName = "";
+    SwipeRefreshLayout swipeRefreshLayout;
 
     static ArrayList<String> deleteDoc = new ArrayList<>();
     static boolean updateAct = false;
@@ -62,6 +64,68 @@ public class FeedActivity<recyclerView> extends AppCompatActivity
 
     FeedRecyclerAdapter feedRecyclerAdapter;
     Intent intent;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_feed);
+
+        swipeRefreshLayout = findViewById(R.id.refreshLayout);
+
+        userEmailFromFB = new ArrayList<>();
+        userCommentFromFB = new ArrayList<>();
+        userImageFromFB = new ArrayList<>();
+        userAddressFromFB = new ArrayList<>();
+        userLatitudeFromFB = new ArrayList<>();
+        userLongitudeFromFB = new ArrayList<>();
+        userIdFromFB = new ArrayList<>();
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseFirestore = FirebaseFirestore.getInstance();
+        firebaseStorage = FirebaseStorage.getInstance();
+        storageReference = firebaseStorage.getReference();
+
+        if(deleteItem)
+        {
+            deletePost();
+            deleteItem = false;
+            ArchiveActivity.deleteItem = false;
+            finish();
+            startActivity(getIntent());
+        }
+
+        if(updateAct)
+        {
+            updateAct = false;
+            finish();
+            startActivity(getIntent());
+        }
+
+        if(!deleteItem && !updateAct)
+        {
+            getDataFromFirestore();
+        }
+
+
+        RecyclerView recyclerView = findViewById(R.id.recyclerProfileView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        feedRecyclerAdapter = new FeedRecyclerAdapter(userEmailFromFB,userCommentFromFB,userImageFromFB,userAddressFromFB);
+
+        recyclerView.setAdapter(feedRecyclerAdapter);
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() // Sayfa Yenileme
+        {
+            @Override
+            public void onRefresh()
+            {
+                swipeRefreshLayout.setRefreshing(false);
+                
+                recreate();
+            }
+        });
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) // Menüyü Aktiviteye Bağlama
@@ -190,7 +254,7 @@ public class FeedActivity<recyclerView> extends AppCompatActivity
         }
         else if(item.getItemId() == R.id.profile) // Arama
         {
-            
+
         }
         else if(item.getItemId() == R.id.profile) // Profile Git
         {
@@ -286,55 +350,6 @@ public class FeedActivity<recyclerView> extends AppCompatActivity
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_feed);
-
-        userEmailFromFB = new ArrayList<>();
-        userCommentFromFB = new ArrayList<>();
-        userImageFromFB = new ArrayList<>();
-        userAddressFromFB = new ArrayList<>();
-        userLatitudeFromFB = new ArrayList<>();
-        userLongitudeFromFB = new ArrayList<>();
-        userIdFromFB = new ArrayList<>();
-
-        firebaseAuth = FirebaseAuth.getInstance();
-        firebaseFirestore = FirebaseFirestore.getInstance();
-        firebaseStorage = FirebaseStorage.getInstance();
-        storageReference = firebaseStorage.getReference();
-
-        if(deleteItem)
-        {
-            deletePost();
-            deleteItem = false;
-            ArchiveActivity.deleteItem = false;
-            finish();
-            startActivity(getIntent());
-        }
-
-        if(updateAct)
-        {
-            updateAct = false;
-            finish();
-            startActivity(getIntent());
-        }
-
-        if(!deleteItem && !updateAct)
-        {
-            getDataFromFirestore();
-        }
-
-
-        RecyclerView recyclerView = findViewById(R.id.recyclerProfileView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        feedRecyclerAdapter = new FeedRecyclerAdapter(userEmailFromFB,userCommentFromFB,userImageFromFB,userAddressFromFB);
-
-        recyclerView.setAdapter(feedRecyclerAdapter);
     }
 
     public void goLocation(int position, Context context)
