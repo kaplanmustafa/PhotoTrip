@@ -14,7 +14,13 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ArchiveActivity" android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
+        <activity
+            android:name=".SearchActivity"
+            android:label="@string/title_activity_search"
+            android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
+        <activity
+            android:name=".ArchiveActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".EditProfileActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
@@ -33,9 +39,9 @@
         <activity
             android:name=".UploadActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
-
-        <activity android:name=".FeedActivity" android:theme="@style/Theme.AppCompat.DayNight"/>
-
+        <activity
+            android:name=".FeedActivity"
+            android:theme="@style/Theme.AppCompat.DayNight" />
         <activity
             android:name=".SignUpActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar">

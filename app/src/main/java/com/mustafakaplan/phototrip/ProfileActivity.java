@@ -18,6 +18,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.mustafakaplan.phototrip.ui.main.DiscoverFragment;
 import com.squareup.picasso.Picasso;
 
 import android.widget.Button;
@@ -43,11 +44,13 @@ import java.util.Map;
 public class ProfileActivity extends AppCompatActivity
 {
     static boolean photoDelete = true;
-    static String currentEmail="";
+    public static String currentEmail="";
     static boolean updatePhoto=false;
     String showUser;
     String ppUrl = "null";
     String imageName = "";
+
+    String activityName = "null";
 
     private FirebaseStorage firebaseStorage;
     private StorageReference storageReference;
@@ -85,6 +88,7 @@ public class ProfileActivity extends AppCompatActivity
 
         Intent intent = getIntent();
         showUser = intent.getStringExtra("showUser");
+        activityName = intent.getStringExtra("activity");
 
         nameText = findViewById(R.id.nameText);
         aboutText = findViewById(R.id.aboutText);
@@ -133,6 +137,21 @@ public class ProfileActivity extends AppCompatActivity
         profileRecycleAdapter = new ProfileRecycleAdapter(userCommentFromFB,userImageFromFB,userAddressFromFB, documentIdFromFB);
 
         recyclerView.setAdapter(profileRecycleAdapter);
+
+        if(showUser != null)
+        {
+            if(!currentEmail.matches(showUser))
+            {
+                if(followed.contains(showUser)) // Profiline bakılan hesap takip ediliyorsa
+                {
+                    followButton.setText("TAKİP");
+                }
+                else
+                {
+                    followButton.setText("TAKİP ET");
+                }
+            }
+        }
 
     }
 
@@ -201,10 +220,35 @@ public class ProfileActivity extends AppCompatActivity
     // geri tuşuna bastığında
     public void onBackPressed()
     {
-        Intent intent = new Intent(ProfileActivity.this, FeedActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // Bütün aktiviteleri kapat
-        startActivity(intent);
-        finish();
+        if(activityName != null)
+        {
+            if(activityName.matches("discover"))
+            {
+                Intent intent = new Intent(ProfileActivity.this, SearchActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // Bütün aktiviteleri kapat
+                startActivity(intent);
+                finish();
+            }
+            else if(activityName.matches("feed"))
+            {
+                Intent intent = new Intent(ProfileActivity.this, FeedActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // Bütün aktiviteleri kapat
+                startActivity(intent);
+                finish();
+            }
+        }
+
+        else
+        {
+            Intent intent = new Intent(ProfileActivity.this, FeedActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // Bütün aktiviteleri kapat
+            startActivity(intent);
+            finish();
+        }
+
+
+
+
     }
 
     public void deletePost()

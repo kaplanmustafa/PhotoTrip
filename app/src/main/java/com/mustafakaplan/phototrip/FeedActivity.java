@@ -107,7 +107,6 @@ public class FeedActivity<recyclerView> extends AppCompatActivity
             getDataFromFirestore();
         }
 
-
         RecyclerView recyclerView = findViewById(R.id.recyclerProfileView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -254,7 +253,10 @@ public class FeedActivity<recyclerView> extends AppCompatActivity
         }
         else if(item.getItemId() == R.id.search) // Arama
         {
-
+            Intent intentToSearch = new Intent(FeedActivity.this,SearchActivity.class);
+            startActivity(intentToSearch);
+            intentToSearch.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // Bütün aktiviteleri kapat
+            finish();
         }
         else if(item.getItemId() == R.id.profile) // Profile Git
         {

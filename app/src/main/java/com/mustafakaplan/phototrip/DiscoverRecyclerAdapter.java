@@ -10,19 +10,20 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.mustafakaplan.phototrip.ui.main.DiscoverFragment;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 
-public class FeedRecyclerAdapter extends RecyclerView.Adapter<FeedRecyclerAdapter.PostHolder>
+public class DiscoverRecyclerAdapter extends RecyclerView.Adapter<DiscoverRecyclerAdapter.PostHolder>
 {
     private ArrayList<String> userEmailList;
     private ArrayList<String> userCommentList;
     private ArrayList<String> userImageList;
     private ArrayList<String> userAddressList;
 
-    public FeedRecyclerAdapter(ArrayList<String> userEmailList, ArrayList<String> userCommentList, ArrayList<String> userImageList,ArrayList<String> userAddressList)
+    public DiscoverRecyclerAdapter(ArrayList<String> userEmailList, ArrayList<String> userCommentList, ArrayList<String> userImageList,ArrayList<String> userAddressList)
     {
         this.userEmailList = userEmailList;
         this.userCommentList = userCommentList;
@@ -35,7 +36,7 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<FeedRecyclerAdapte
     public PostHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.recycler_row,parent,false);
+        View view = layoutInflater.inflate(R.layout.recycler_row_discover,parent,false);
         View.OnClickListener onClickListener = null;
         view.setOnClickListener(onClickListener);
         return new PostHolder(view);
@@ -56,7 +57,7 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<FeedRecyclerAdapte
             @Override
             public void onClick(View v)
             {
-                v.getContext().startActivity(new Intent(v.getContext(), ProfileActivity.class).putExtra("showUser",holder.userEmailText.getText().toString()).putExtra("activity","feed"));
+                v.getContext().startActivity(new Intent(v.getContext(), ProfileActivity.class).putExtra("showUser",holder.userEmailText.getText().toString()).putExtra("activity","discover"));
             }
         });
 
@@ -68,7 +69,7 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<FeedRecyclerAdapte
             {
                 if (!holder.addressText.getText().toString().matches(""))
                 {
-                    v.getContext().startActivity(new Intent(v.getContext(), MapsActivity.class).putExtra("locationLatitude",FeedActivity.userLatitudeFromFB.get(position)).putExtra("locationLongitude",FeedActivity.userLongitudeFromFB.get(position)).putExtra("locationAddress",FeedActivity.userAddressFromFB.get(position)));
+                    v.getContext().startActivity(new Intent(v.getContext(), MapsActivity.class).putExtra("locationLatitude", DiscoverFragment.userLatitudeFromFB.get(position)).putExtra("locationLongitude",DiscoverFragment.userLongitudeFromFB.get(position)).putExtra("locationAddress",DiscoverFragment.userAddressFromFB.get(position)));
                 }
             }
         });
@@ -91,10 +92,10 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<FeedRecyclerAdapte
         {
             super(itemView);
 
-            imageView = itemView.findViewById(R.id.recyclerview_row_imageview);
-            userEmailText = itemView.findViewById(R.id.recyclerview_row_location_text);
-            commentText = itemView.findViewById(R.id.recyclerview_row_comment_text);
-            addressText = itemView.findViewById(R.id.recyclerview_row_useraddress_text);
+            imageView = itemView.findViewById(R.id.recyclerview_row_discover_imageview);
+            userEmailText = itemView.findViewById(R.id.recyclerview_row_discover_location_text);
+            commentText = itemView.findViewById(R.id.recyclerview_row_discover_comment_text);
+            addressText = itemView.findViewById(R.id.recyclerview_row_discover_useraddress_text);
         }
     }
 }

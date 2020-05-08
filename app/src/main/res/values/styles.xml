@@ -8,11 +8,12 @@
         <!-- Customize your theme here. -->
         <item name="android:statusBarColor">#000000</item>
         <item name="colorPrimary">#181818</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">#181818</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
+        <item name="android:statusBarColor">#000000</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
