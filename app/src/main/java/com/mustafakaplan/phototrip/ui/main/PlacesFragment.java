@@ -57,6 +57,8 @@ public class PlacesFragment extends Fragment
     public static ArrayList<String> userAddressFromFB;
     public static ArrayList<String> userLatitudeFromFB;
     public static ArrayList<String> userLongitudeFromFB;
+    public static boolean control = false;
+    public static boolean control2 = false;
 
     private FirebaseAuth firebaseAuth;
     private FirebaseStorage firebaseStorage;
@@ -135,6 +137,7 @@ public class PlacesFragment extends Fragment
             @Override
             public void onPlaceSelected(@NonNull Place place)
             {
+
                 String address = place.getName();
 
                 userEmailFromFB.clear();
@@ -147,10 +150,6 @@ public class PlacesFragment extends Fragment
 
                 getDataFromFirestore(address);
 
-                if(userImageFromFB.size() == 0)
-                {
-                    Toast.makeText(getContext(),"Sonuç Bulunamadı",Toast.LENGTH_LONG).show();
-                }
             }
 
             @Override
@@ -216,5 +215,6 @@ public class PlacesFragment extends Fragment
                 }
             }
         });
+
     }
 }

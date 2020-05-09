@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mustafakaplan.phototrip.ui.main.PlacesFragment;
+import com.mustafakaplan.phototrip.ui.main.ProfilesFragment;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -47,33 +48,34 @@ public class PlacesRecyclerAdapter extends RecyclerView.Adapter<PlacesRecyclerAd
     @Override // Buraya bağlanınca ne olacağı
     public void onBindViewHolder(@NonNull final PostHolder holder, final int position)
     {
-        holder.userEmailText.setText(userEmailList.get(position));
-        holder.commentText.setText(userCommentList.get(position));
-        holder.addressText.setText(userAddressList.get(position));
-        Picasso.get().load(userImageList.get(position)).into(holder.imageView);
+            holder.userEmailText.setText(userEmailList.get(position));
+            holder.commentText.setText(userCommentList.get(position));
+            holder.addressText.setText(userAddressList.get(position));
+            Picasso.get().load(userImageList.get(position)).into(holder.imageView);
 
-        // Ana Sayfadan Profile Gitme
-        holder.userEmailText.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
+            // Ana Sayfadan Profile Gitme
+            holder.userEmailText.setOnClickListener(new View.OnClickListener()
             {
-                v.getContext().startActivity(new Intent(v.getContext(), ProfileActivity.class).putExtra("showUser",holder.userEmailText.getText().toString()).putExtra("activity","places"));
-            }
-        });
-
-        // Ana Sayfadan Konuma Gitme
-        holder.addressText.setOnClickListener(new View.OnClickListener() // Konum Bilgisi Click
-        {
-            @Override
-            public void onClick(View v)
-            {
-                if (!holder.addressText.getText().toString().matches(""))
+                @Override
+                public void onClick(View v)
                 {
-                    v.getContext().startActivity(new Intent(v.getContext(), MapsActivity.class).putExtra("locationLatitude", PlacesFragment.userLatitudeFromFB.get(position)).putExtra("locationLongitude",PlacesFragment.userLongitudeFromFB.get(position)).putExtra("locationAddress",PlacesFragment.userAddressFromFB.get(position)));
+                    v.getContext().startActivity(new Intent(v.getContext(), ProfileActivity.class).putExtra("showUser",holder.userEmailText.getText().toString()).putExtra("activity","places"));
                 }
-            }
-        });
+            });
+
+            // Ana Sayfadan Konuma Gitme
+            holder.addressText.setOnClickListener(new View.OnClickListener() // Konum Bilgisi Click
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    if (!holder.addressText.getText().toString().matches(""))
+                    {
+                        v.getContext().startActivity(new Intent(v.getContext(), MapsActivity.class).putExtra("locationLatitude", PlacesFragment.userLatitudeFromFB.get(position)).putExtra("locationLongitude",PlacesFragment.userLongitudeFromFB.get(position)).putExtra("locationAddress",PlacesFragment.userAddressFromFB.get(position)));
+                    }
+                }
+            });
+
     }
 
     @Override
