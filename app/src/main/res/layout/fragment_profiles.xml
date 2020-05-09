@@ -1,14 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#000000"
+    android:padding="16dp"
+    android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
     tools:context=".ui.main.ProfilesFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <AutoCompleteTextView
+        android:id="@+id/actv"
+        android:layout_width="296dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@android:color/darker_gray"
 
-</FrameLayout>
+        android:backgroundTint="@android:color/darker_gray"
+        android:completionThreshold="1"
+        android:hint="Ara"
+        android:popupBackground="#181818"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textColorHint="#000000"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/deleteTextButton"
+        android:layout_width="62dp"
+        android:layout_height="50dp"
+        app:layout_constraintBottom_toBottomOf="@+id/actv"
+        app:layout_constraintStart_toEndOf="@+id/actv"
+        app:layout_constraintTop_toTopOf="@+id/actv"
+        app:srcCompat="@android:drawable/btn_dialog" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

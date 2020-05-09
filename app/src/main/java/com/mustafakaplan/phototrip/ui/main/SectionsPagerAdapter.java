@@ -24,13 +24,17 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
 
-        if(position == 0)
+        if(position == 0) // Keşfet
         {
             return DiscoverFragment.newInstance();
         }
-        else if(position == 1)
+        else if(position == 1) // Yerler
         {
             return PlacesFragment.newInstance();
+        }
+        else if(position == 2) // Kişiler
+        {
+            return  ProfilesFragment.newInstance();
         }
 
         return DiscoverFragment.newInstance();
