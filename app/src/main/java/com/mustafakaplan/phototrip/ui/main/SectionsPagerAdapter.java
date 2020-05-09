@@ -24,10 +24,14 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
 
-        /*if(position == 0)
+        if(position == 0)
         {
             return DiscoverFragment.newInstance();
-        }*/
+        }
+        else if(position == 1)
+        {
+            return PlacesFragment.newInstance();
+        }
 
         return DiscoverFragment.newInstance();
     }

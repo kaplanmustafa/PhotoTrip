@@ -2,23 +2,18 @@ package com.mustafakaplan.phototrip;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.mustafakaplan.phototrip.ui.main.DiscoverFragment;
 import com.squareup.picasso.Picasso;
 
 import android.widget.Button;
@@ -26,7 +21,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -34,9 +28,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.squareup.picasso.PicassoProvider;
 
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -151,6 +143,15 @@ public class ProfileActivity extends AppCompatActivity
                     followButton.setText("TAKİP ET");
                 }
             }
+            else
+            {
+                if(activityName.matches("places"))
+                {
+                    editButton.setEnabled(false);
+                    archiveButton.setEnabled(false);
+                    photoDelete = false;
+                }
+            }
         }
 
     }
@@ -222,13 +223,11 @@ public class ProfileActivity extends AppCompatActivity
     {
         if(activityName != null)
         {
-            if(activityName.matches("discover"))
+            if(activityName.matches("discover") || activityName.matches("places"))
             {
-                Intent intent = new Intent(ProfileActivity.this, SearchActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // Bütün aktiviteleri kapat
-                startActivity(intent);
                 finish();
             }
+
             else if(activityName.matches("feed"))
             {
                 Intent intent = new Intent(ProfileActivity.this, FeedActivity.class);
@@ -390,7 +389,8 @@ public class ProfileActivity extends AppCompatActivity
                                     photoDelete = false;
                                 }
 
-                                if(userEmail.matches(showUser)) // Başka Kişinin Profili
+
+                                if(userEmail.matches(showUser))
                                 {
                                     String visibility = (String) data.get("visibility");
 
