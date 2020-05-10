@@ -51,6 +51,7 @@ public class PlacesFragment extends Fragment
     PageViewModel pageViewModel;
 
     ArrayList<String> userEmailFromFB;
+    ArrayList<String> userNameFromFB;
     ArrayList<String> userIdFromFB;
     ArrayList<String> userCommentFromFB;
     ArrayList<String> userImageFromFB;
@@ -83,6 +84,7 @@ public class PlacesFragment extends Fragment
         pageViewModel = ViewModelProviders.of(requireActivity()).get(PageViewModel.class);
 
         userEmailFromFB = new ArrayList<>();
+        userNameFromFB = new ArrayList<>();
         userCommentFromFB = new ArrayList<>();
         userImageFromFB = new ArrayList<>();
         userAddressFromFB = new ArrayList<>();
@@ -114,7 +116,7 @@ public class PlacesFragment extends Fragment
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        placesRecyclerAdapter = new PlacesRecyclerAdapter(userEmailFromFB,userCommentFromFB,userImageFromFB,userAddressFromFB);
+        placesRecyclerAdapter = new PlacesRecyclerAdapter(userEmailFromFB, userNameFromFB,userCommentFromFB,userImageFromFB,userAddressFromFB);
 
         recyclerView.setAdapter(placesRecyclerAdapter);
 
@@ -141,6 +143,7 @@ public class PlacesFragment extends Fragment
                 String address = place.getName();
 
                 userEmailFromFB.clear();
+                userNameFromFB.clear();
                 userCommentFromFB.clear();
                 userIdFromFB.clear();
                 userImageFromFB.clear();
@@ -193,6 +196,7 @@ public class PlacesFragment extends Fragment
                                     {
                                         String comment = (String) data.get("comment");
                                         String userEmail = (String) data.get("useremail");
+                                        String userName = (String) data.get("username");
                                         String downloadUrl = (String) data.get("downloadurl");
                                         String address = (String) data.get("address");
                                         String latitude = (String) data.get("latitude");
@@ -201,6 +205,7 @@ public class PlacesFragment extends Fragment
 
                                         userCommentFromFB.add(comment);
                                         userEmailFromFB.add(userEmail);
+                                        userNameFromFB.add(userName);
                                         userImageFromFB.add(downloadUrl);
                                         userAddressFromFB.add(address);
                                         userLatitudeFromFB.add(latitude);

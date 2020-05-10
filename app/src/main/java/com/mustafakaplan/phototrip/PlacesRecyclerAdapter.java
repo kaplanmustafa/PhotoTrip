@@ -21,13 +21,15 @@ import java.util.ArrayList;
 public class PlacesRecyclerAdapter extends RecyclerView.Adapter<PlacesRecyclerAdapter.PostHolder>
 {
     private ArrayList<String> userEmailList;
+    private ArrayList<String> userNameList;
     private ArrayList<String> userCommentList;
     private ArrayList<String> userImageList;
     private ArrayList<String> userAddressList;
 
-    public PlacesRecyclerAdapter(ArrayList<String> userEmailList, ArrayList<String> userCommentList, ArrayList<String> userImageList,ArrayList<String> userAddressList)
+    public PlacesRecyclerAdapter(ArrayList<String> userEmailList, ArrayList<String> userNameList, ArrayList<String> userCommentList, ArrayList<String> userImageList,ArrayList<String> userAddressList)
     {
         this.userEmailList = userEmailList;
+        this.userNameList = userNameList;
         this.userCommentList = userCommentList;
         this.userImageList = userImageList;
         this.userAddressList = userAddressList;
@@ -48,7 +50,7 @@ public class PlacesRecyclerAdapter extends RecyclerView.Adapter<PlacesRecyclerAd
     @Override // Buraya bağlanınca ne olacağı
     public void onBindViewHolder(@NonNull final PostHolder holder, final int position)
     {
-            holder.userEmailText.setText(userEmailList.get(position));
+            holder.userEmailText.setText(userNameList.get(position));
             holder.commentText.setText(userCommentList.get(position));
             holder.addressText.setText(userAddressList.get(position));
             Picasso.get().load(userImageList.get(position)).into(holder.imageView);
@@ -59,7 +61,7 @@ public class PlacesRecyclerAdapter extends RecyclerView.Adapter<PlacesRecyclerAd
                 @Override
                 public void onClick(View v)
                 {
-                    v.getContext().startActivity(new Intent(v.getContext(), ProfileActivity.class).putExtra("showUser",holder.userEmailText.getText().toString()).putExtra("activity","places"));
+                    v.getContext().startActivity(new Intent(v.getContext(), ProfileActivity.class).putExtra("showUser",userEmailList.get(position)).putExtra("activity","places"));
                 }
             });
 
