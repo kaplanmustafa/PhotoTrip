@@ -36,6 +36,7 @@ import com.mustafakaplan.phototrip.ProfileActivity;
 import com.mustafakaplan.phototrip.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class ProfilesFragment extends Fragment
@@ -43,6 +44,7 @@ public class ProfilesFragment extends Fragment
     PageViewModel pageViewModel;
 
     ArrayList<String> userEmailFromFB;
+    ArrayList<String> userNameFromFB;
 
     private FirebaseFirestore firebaseFirestore;
     final static String[] dizi = new String[]{"Ankara","İstanbul"};
@@ -64,6 +66,7 @@ public class ProfilesFragment extends Fragment
         pageViewModel = ViewModelProviders.of(requireActivity()).get(PageViewModel.class);
 
         userEmailFromFB = new ArrayList<>();
+        userNameFromFB = new ArrayList<>();
         firebaseFirestore = FirebaseFirestore.getInstance();
 
         getDataFromFirestore();
@@ -84,7 +87,7 @@ public class ProfilesFragment extends Fragment
 
         deleteTextButton = view.findViewById(R.id.deleteTextButton);
         editText = view.findViewById(R.id.actv);
-        arrayAdapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1,userEmailFromFB);
+        arrayAdapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1,userNameFromFB);
         editText.setAdapter(arrayAdapter);
 
         editText.addTextChangedListener(new TextWatcher() {
@@ -99,11 +102,12 @@ public class ProfilesFragment extends Fragment
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-                if(userEmailFromFB.contains(s.toString()))
+            public void afterTextChanged(Editable s)
+            {
+                if(userNameFromFB.contains(s.toString()))
                 {
                     Intent intentToProfile = new Intent(getContext(),ProfileActivity.class);
-                    intentToProfile.putExtra("showUser",s.toString());
+                    intentToProfile.putExtra("showUser",userEmailFromFB.get(userNameFromFB.indexOf(s.toString())));
                     intentToProfile.putExtra("activity","places");
                     startActivity(intentToProfile);
                 }
@@ -141,7 +145,10 @@ public class ProfilesFragment extends Fragment
                             Map<String,Object> data = snapshot.getData();
 
                             String userEmail = snapshot.getId();
+                            String userName = (String) data.get("username");
+
                             userEmailFromFB.add(userEmail);
+                            userNameFromFB.add(userName);
                         }
                     }
                 }

@@ -37,6 +37,7 @@ public class ProfileActivity extends AppCompatActivity
 {
     static boolean photoDelete = true;
     public static String currentEmail="";
+    public static String currentUserName="";
     static boolean updatePhoto=false;
     String showUser;
     String ppUrl = "null";

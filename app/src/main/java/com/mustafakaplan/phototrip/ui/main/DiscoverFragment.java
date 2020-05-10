@@ -38,6 +38,7 @@ public class DiscoverFragment extends Fragment
     SwipeRefreshLayout swipeRefreshLayout;
 
     ArrayList<String> userEmailFromFB;
+    ArrayList<String> userNameFromFB;
     ArrayList<String> userIdFromFB;
     ArrayList<String> userCommentFromFB;
     ArrayList<String> userImageFromFB;
@@ -66,6 +67,7 @@ public class DiscoverFragment extends Fragment
         pageViewModel = ViewModelProviders.of(requireActivity()).get(PageViewModel.class);
 
         userEmailFromFB = new ArrayList<>();
+        userNameFromFB = new ArrayList<>();
         userCommentFromFB = new ArrayList<>();
         userImageFromFB = new ArrayList<>();
         userAddressFromFB = new ArrayList<>();
@@ -97,7 +99,7 @@ public class DiscoverFragment extends Fragment
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        discoverRecyclerAdapter = new DiscoverRecyclerAdapter(userEmailFromFB,userCommentFromFB,userImageFromFB,userAddressFromFB);
+        discoverRecyclerAdapter = new DiscoverRecyclerAdapter(userEmailFromFB,userNameFromFB,userCommentFromFB,userImageFromFB,userAddressFromFB);
 
         recyclerView.setAdapter(discoverRecyclerAdapter);
 
@@ -147,6 +149,7 @@ public class DiscoverFragment extends Fragment
                                 {
                                     String comment = (String) data.get("comment");
                                     String userEmail = (String) data.get("useremail");
+                                    String userName = (String) data.get("username");
                                     String downloadUrl = (String) data.get("downloadurl");
                                     String address = (String) data.get("address");
                                     String latitude = (String) data.get("latitude");
@@ -155,6 +158,7 @@ public class DiscoverFragment extends Fragment
 
                                     userCommentFromFB.add(comment);
                                     userEmailFromFB.add(userEmail);
+                                    userNameFromFB.add(userName);
                                     userImageFromFB.add(downloadUrl);
                                     userAddressFromFB.add(address);
                                     userLatitudeFromFB.add(latitude);
