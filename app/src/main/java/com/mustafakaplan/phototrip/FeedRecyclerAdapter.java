@@ -58,7 +58,7 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<FeedRecyclerAdapte
             @Override
             public void onClick(View v)
             {
-                v.getContext().startActivity(new Intent(v.getContext(), ProfileActivity.class).putExtra("showUser",userEmailList.get(position)).putExtra("activity","feed"));
+                v.getContext().startActivity(new Intent(v.getContext(), ProfileActivity.class).putExtra("showUser",userEmailList.get(position)).putExtra("showUserName",holder.userEmailText.getText().toString()).putExtra("activity","feed"));
             }
         });
 

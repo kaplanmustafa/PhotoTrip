@@ -59,7 +59,7 @@ public class DiscoverRecyclerAdapter extends RecyclerView.Adapter<DiscoverRecycl
             @Override
             public void onClick(View v)
             {
-                v.getContext().startActivity(new Intent(v.getContext(), ProfileActivity.class).putExtra("showUser",userEmailList.get(position)).putExtra("activity","discover"));
+                v.getContext().startActivity(new Intent(v.getContext(), ProfileActivity.class).putExtra("showUser",userEmailList.get(position)).putExtra("showUserName",holder.userEmailText.getText().toString()).putExtra("activity","discover"));
             }
         });
 

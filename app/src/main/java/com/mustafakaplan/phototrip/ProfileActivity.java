@@ -17,6 +17,7 @@ import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -65,8 +66,10 @@ public class ProfileActivity extends AppCompatActivity
     static ArrayList<String> userLatitudeFromFB;
     static ArrayList<String> userLongitudeFromFB;
     static ArrayList<String> documentIdFromFB;
+    static  String showUsrName = "";
 
     TextView nameText;
+    TextView userNameShow;
     TextView aboutText;
     ImageView profilePhoto;
     Button editButton;
@@ -82,8 +85,10 @@ public class ProfileActivity extends AppCompatActivity
         Intent intent = getIntent();
         showUser = intent.getStringExtra("showUser");
         activityName = intent.getStringExtra("activity");
+        showUsrName = intent.getStringExtra("showUserName");
 
         nameText = findViewById(R.id.nameText);
+        userNameShow = findViewById(R.id.userNameShow);
         aboutText = findViewById(R.id.aboutText);
         profilePhoto = findViewById(R.id.profilePhoto);
         profilePhoto.setImageResource(R.drawable.user);
@@ -133,8 +138,11 @@ public class ProfileActivity extends AppCompatActivity
 
         if(showUser != null)
         {
+            System.out.println("User Name : " + showUsrName);
             if(!currentEmail.matches(showUser))
             {
+                userNameShow.setText(showUsrName);
+
                 if(followed.contains(showUser)) // Profiline bakılan hesap takip ediliyorsa
                 {
                     followButton.setText("TAKİP");
@@ -146,6 +154,8 @@ public class ProfileActivity extends AppCompatActivity
             }
             else
             {
+                userNameShow.setText(currentUserName);
+
                 if(activityName.matches("places"))
                 {
                     editButton.setEnabled(false);
@@ -153,6 +163,10 @@ public class ProfileActivity extends AppCompatActivity
                     photoDelete = false;
                 }
             }
+        }
+        else
+        {
+            userNameShow.setText(currentUserName);
         }
 
     }

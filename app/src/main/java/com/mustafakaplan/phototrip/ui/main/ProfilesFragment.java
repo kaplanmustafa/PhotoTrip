@@ -108,6 +108,7 @@ public class ProfilesFragment extends Fragment
                 {
                     Intent intentToProfile = new Intent(getContext(),ProfileActivity.class);
                     intentToProfile.putExtra("showUser",userEmailFromFB.get(userNameFromFB.indexOf(s.toString())));
+                    intentToProfile.putExtra("showUserName",s.toString());
                     intentToProfile.putExtra("activity","places");
                     startActivity(intentToProfile);
                 }
