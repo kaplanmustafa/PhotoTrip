@@ -28,7 +28,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_margin="20dp"
+        android:layout_margin="20dp" android:autofillHints="Ara"
         android:background="@android:color/darker_gray"
         android:orientation="horizontal">
 

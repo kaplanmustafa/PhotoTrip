@@ -216,6 +216,11 @@ public class PlacesFragment extends Fragment
                                     }
                                 }
                         }
+
+                        if(userImageFromFB.size() == 0)
+                        {
+                            Toast.makeText(getContext(),"Sonuç Bulunamadı",Toast.LENGTH_LONG).show();
+                        }
                     }
                 }
             }

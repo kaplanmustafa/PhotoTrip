@@ -45,6 +45,7 @@ public class FeedActivity<recyclerView> extends AppCompatActivity
     private FirebaseFirestore firebaseFirestore;
     private StorageReference storageReference;
     String imageName = "";
+    static boolean updateName = false;
     SwipeRefreshLayout swipeRefreshLayout;
 
     static ArrayList<String> deleteDoc = new ArrayList<>();
@@ -110,7 +111,12 @@ public class FeedActivity<recyclerView> extends AppCompatActivity
             getDataFromFirestore();
         }
 
-        getUserName();
+        if(ProfileActivity.currentUserName.matches("") || updateName)
+        {
+            getUserName();
+            updateName = false;
+        }
+
 
         RecyclerView recyclerView = findViewById(R.id.recyclerProfileView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

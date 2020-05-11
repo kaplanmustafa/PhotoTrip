@@ -82,6 +82,7 @@ public class SignUpActivity extends AppCompatActivity
                         if(firebaseUser.isEmailVerified())
                         {
                             ProfileActivity.currentEmail = email; // Kullanıcının emailini tut
+                            FeedActivity.updateName = true;
                             Intent intent = new Intent(SignUpActivity.this,FeedActivity.class);
                             startActivity(intent);
                             finish(); // Aktiviteyi Tamamen Kapatır
