@@ -159,10 +159,6 @@ public class SignUpActivity extends AppCompatActivity
                 {
                     Toast.makeText(SignUpActivity.this,"Lütfen Kullanıcı Adı Giriniz!",Toast.LENGTH_SHORT).show();
                 }
-                else if(userName.matches("null"))
-                {
-                    Toast.makeText(SignUpActivity.this,"Kullanıcı Adı Alınamaz!",Toast.LENGTH_LONG).show();
-                }
 
                 else
                 {
@@ -207,6 +203,7 @@ public class SignUpActivity extends AppCompatActivity
                                             @Override
                                             public void onSuccess(AuthResult authResult) // İşlem Başarılıysa
                                             {
+                                                ProfileActivity.currentUserName = userName;
                                                 emailVerification(); //Onay maili gönder
 
                                                 userData.put("useremail",emailText.getText().toString());

@@ -109,7 +109,7 @@ public class UploadActivity extends AppCompatActivity
 
                             HashMap<String, Object> postData = new HashMap<>();
                             postData.put("useremail",userEmail);
-                            //postData.put("username",)
+                            postData.put("username",ProfileActivity.currentUserName);
                             postData.put("downloadurl",downloadUrl);
                             postData.put("comment",comment);
                             postData.put("date", FieldValue.serverTimestamp());

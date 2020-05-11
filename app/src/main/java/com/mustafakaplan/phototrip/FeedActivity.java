@@ -24,6 +24,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -108,6 +109,8 @@ public class FeedActivity<recyclerView> extends AppCompatActivity
         {
             getDataFromFirestore();
         }
+
+        getUserName();
 
         RecyclerView recyclerView = findViewById(R.id.recyclerProfileView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -365,6 +368,26 @@ public class FeedActivity<recyclerView> extends AppCompatActivity
         intent.putExtra("locationAddress",userAddressFromFB.get(position));
 
         startActivity(intent);
+    }
+
+    public void getUserName()
+    {
+        DocumentReference docRef = firebaseFirestore.collection("Users").document(ProfileActivity.currentEmail);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        ProfileActivity.currentUserName = (String) document.get("username");
+                    } else {
+                        System.out.println("Döküman yok");
+                    }
+                } else {
+                    System.out.println(task.getException());
+                }
+            }
+        });
     }
 
     public void getDataFromFirestore()
