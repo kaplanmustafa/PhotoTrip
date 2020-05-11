@@ -36,7 +36,7 @@
         android:layout_gravity="center"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-        app:srcCompat="@drawable/position" />
+        app:srcCompat="@drawable/ic_launcher_background" />
 
     <TextView
         android:id="@+id/recyclerview_row_discover_comment_text"

@@ -14,12 +14,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.ActionCodeSettings;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -37,12 +35,6 @@ public class SignUpActivity extends AppCompatActivity
     String email, password;
     FirebaseUser firebaseUser;
     private FirebaseFirestore firebaseFirestore;
-    String userName = "";
-    boolean registerControl = true;
-    String profileUserNames = "";
-    int control = 0;
-    int control2 = 0;
-    HashMap<String, Object> userData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -54,7 +46,7 @@ public class SignUpActivity extends AppCompatActivity
 
         emailText = findViewById(R.id.emailText);
         passwordText = findViewById(R.id.passwordText);
-        userNameText = findViewById(R.id.userNameText);
+        userNameText = findViewById(R.id.registerUserName);
 
         firebaseUser = firebaseAuth.getCurrentUser();
         firebaseFirestore = FirebaseFirestore.getInstance();
@@ -138,156 +130,8 @@ public class SignUpActivity extends AppCompatActivity
 
     public void  signUpClicked(View view) // Kullanıcı Kayıt
     {
-        email = emailText.getText().toString();
-        password = passwordText.getText().toString();
-
-        if(fieldControl(email,password)) // Alanlar Doluysa
-        {
-            if(registerControl)
-            {
-                userNameText.setVisibility(View.VISIBLE);
-                Toast.makeText(SignUpActivity.this,"Lütfen Kullanıcı Adı Giriniz",Toast.LENGTH_SHORT).show();
-                registerControl = false;
-            }
-            else
-            {
-                userName = userNameText.getText().toString();
-                control = 0;
-                control2 = 0;
-
-                if(userName.matches(""))
-                {
-                    Toast.makeText(SignUpActivity.this,"Lütfen Kullanıcı Adı Giriniz!",Toast.LENGTH_SHORT).show();
-                }
-
-                else
-                {
-                    CollectionReference collectionReference = firebaseFirestore.collection("Users");
-
-                    collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>()
-                    {
-                        @Override
-                        public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e)
-                        {
-                            if(e != null)
-                            {
-                                Toast.makeText(SignUpActivity.this,e.getLocalizedMessage().toString(),Toast.LENGTH_LONG).show();
-                            }
-                            else
-                            {
-                                if(queryDocumentSnapshots != null)
-                                {
-                                    for(DocumentSnapshot snapshot : queryDocumentSnapshots.getDocuments())
-                                    {
-                                        Map<String,Object> data = snapshot.getData();
-
-                                        profileUserNames = (String)data.get("username");
-
-                                        if(profileUserNames.matches(userName) && control2 == 0) // Kullanıcı adı sistemde varsa
-                                        {
-                                            System.out.println("Girdi 1");
-                                            Toast.makeText(SignUpActivity.this,"Kullanıcı Adı Alınamaz!",Toast.LENGTH_SHORT).show();
-                                            control = 1;
-                                            break;
-                                        }
-                                    }
-
-                                    if(control == 0 && control2 == 0)
-                                    {
-                                        control2 = 1;
-                                        userData = new HashMap<>();
-                                        userData.put("username",userName);
-
-                                        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnSuccessListener(new OnSuccessListener<AuthResult>()
-                                        {
-                                            @Override
-                                            public void onSuccess(AuthResult authResult) // İşlem Başarılıysa
-                                            {
-                                                ProfileActivity.currentUserName = userName;
-                                                emailVerification(); //Onay maili gönder
-
-                                                userData.put("useremail",emailText.getText().toString());
-                                                userData.put("downloadurl","null");
-                                                userData.put("fullname","Adı Soyadı");
-                                                userData.put("aboutme", "Hakkında");
-                                                ArrayList<String> empty = new ArrayList<>();
-
-                                                userData.put("followed",empty);
-
-                                                firebaseFirestore.collection("Users").document(emailText.getText().toString()).set(userData).addOnSuccessListener(new OnSuccessListener<Void>()
-                                                {
-                                                    @Override
-                                                    public void onSuccess(Void aVoid)
-                                                    {
-
-                                                    }
-                                                }).addOnFailureListener(new OnFailureListener()
-                                                {
-                                                    @Override
-                                                    public void onFailure(@NonNull Exception e)
-                                                    {
-                                                        System.out.println(e);
-                                                    }
-                                                });
-                                            }
-                                        }).addOnFailureListener(new OnFailureListener()
-                                        {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) // İşlem Başarısızsa
-                                            {
-                                                if(e.getLocalizedMessage().toString().matches("The email address is already in use by another account."))
-                                                {
-                                                    Toast.makeText(SignUpActivity.this,"E-posta Adresi Başka Bir Kullanıcıya Ait!",Toast.LENGTH_LONG).show();
-                                                }
-
-                                                else if(e.getLocalizedMessage().toString().contains("be at least 6"))
-                                                {
-                                                    Toast.makeText(SignUpActivity.this,"Şifre En Az 6 Karakter Olmalıdır!",Toast.LENGTH_LONG).show();
-                                                }
-
-                                                else if(e.getLocalizedMessage().toString().contains("badly formatted"))
-                                                {
-                                                    Toast.makeText(SignUpActivity.this,"E-posta Formatı Yanlış!",Toast.LENGTH_LONG).show();
-                                                }
-
-                                                else
-                                                {
-                                                    Toast.makeText(SignUpActivity.this,e.getLocalizedMessage().toString(),Toast.LENGTH_LONG).show();
-                                                }
-
-                                            }
-                                        });
-
-                                    }
-                                }
-
-                            }
-
-                        }
-
-                    });
-
-                }
-            }
-
-
-        }
-    }
-
-    public void emailVerification()
-    {
-        firebaseAuth.setLanguageCode("tr");
-        firebaseUser = firebaseAuth.getCurrentUser();
-
-        firebaseUser.sendEmailVerification()
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(SignUpActivity.this,"Kayıt Başarılı, Lütfen Eposta Adresinizi Doğrulayınız",Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });
+        Intent intentToRegister = new Intent(SignUpActivity.this,RegisterActivity.class);
+        startActivity(intentToRegister);
     }
 
     public void passwordUpdateMail(View view)
