@@ -20,7 +20,7 @@
         android:textColor="#FFFFFF"
         tools:ignore="RtlCompat" />
 
-    <ImageView
+    <com.github.chrisbanes.photoview.PhotoView
         android:id="@+id/recyclerview_row_imageview"
         android:layout_width="match_parent"
         android:layout_height="389dp"
@@ -37,13 +37,34 @@
         android:paddingLeft="10dp"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-        android:text="TextView"
         android:textColor="#FFFFFF" />
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <Button
+        android:id="@+id/restoreButton"
+        android:layout_marginLeft="80dp"
+        android:layout_width="120dp"
+        android:layout_height="40dp"
+        android:text="GERİ YÜKLE"
+        android:layout_gravity="center"/>
+
+        <Button
+            android:id="@+id/deleteButton"
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:text="SİL" />
+    </LinearLayout>
+
+
 
     <View
         android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#FFFFFF" />
+
+
 
 </LinearLayout>

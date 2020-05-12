@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,7 +8,17 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/recyclerview_row_useraddress_text"
+        android:id="@+id/recyclerview_row_discover_location_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:textColor="#FFFFFF" />
+
+    <TextView
+        android:id="@+id/recyclerview_row_discover_useraddress_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
@@ -20,17 +29,17 @@
         android:textColor="#FFFFFF"
         tools:ignore="RtlCompat" />
 
-    <ImageView
-        android:id="@+id/recyclerview_row_imageview"
+    <com.github.chrisbanes.photoview.PhotoView
+        android:id="@+id/recyclerview_row_discover_imageview"
         android:layout_width="match_parent"
         android:layout_height="389dp"
         android:layout_gravity="center"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-        app:srcCompat="@drawable/ic_launcher_background" />
+        app:srcCompat="@drawable/airplanes" />
 
     <TextView
-        android:id="@+id/recyclerview_row_comment_text"
+        android:id="@+id/recyclerview_row_discover_comment_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
@@ -38,33 +47,10 @@
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
         android:textColor="#FFFFFF" />
-    <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-    <Button
-        android:id="@+id/restoreButton"
-        android:layout_marginLeft="80dp"
-        android:layout_width="120dp"
-        android:layout_height="40dp"
-        android:text="GERİ YÜKLE"
-        android:layout_gravity="center"/>
-
-        <Button
-            android:id="@+id/deleteButton"
-            android:layout_width="120dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center"
-            android:text="SİL" />
-    </LinearLayout>
-
-
 
     <View
-        android:id="@+id/divider"
+        android:id="@+id/divider_discover"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#FFFFFF" />
-
-
-
 </LinearLayout>

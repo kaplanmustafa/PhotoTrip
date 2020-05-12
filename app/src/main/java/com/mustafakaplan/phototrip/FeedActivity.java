@@ -17,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.github.chrisbanes.photoview.PhotoView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -73,6 +74,8 @@ public class FeedActivity<recyclerView> extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feed);
+
+        PhotoView photoView = (PhotoView) findViewById(R.id.recyclerview_row_imageview);
 
         swipeRefreshLayout = findViewById(R.id.refreshLayout);
 

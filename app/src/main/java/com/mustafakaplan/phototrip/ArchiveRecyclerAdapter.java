@@ -14,7 +14,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -40,7 +39,7 @@ public class ArchiveRecyclerAdapter extends RecyclerView.Adapter<ArchiveRecycler
     public ArchiveRecyclerAdapter.PostHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.recycler_row3,parent,false);
+        View view = layoutInflater.inflate(R.layout.archive_recycler_row,parent,false);
         View.OnClickListener onClickListener = null;
         view.setOnClickListener(onClickListener);
 

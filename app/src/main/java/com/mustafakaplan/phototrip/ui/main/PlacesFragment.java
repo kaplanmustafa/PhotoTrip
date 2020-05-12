@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.github.chrisbanes.photoview.PhotoView;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -113,7 +114,7 @@ public class PlacesFragment extends Fragment
         super.onViewCreated(view, savedInstanceState);
 
         RecyclerView recyclerView = view.findViewById(R.id.recyclerProfileView);
-
+        PhotoView photoView = (PhotoView) view.findViewById(R.id.recyclerview_row_discover_imageview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         placesRecyclerAdapter = new PlacesRecyclerAdapter(userEmailFromFB, userNameFromFB,userCommentFromFB,userImageFromFB,userAddressFromFB);

@@ -30,7 +30,7 @@
         android:textColor="#FFFFFF"
         tools:ignore="RtlCompat" />
 
-    <ImageView
+    <com.github.chrisbanes.photoview.PhotoView
         android:id="@+id/recyclerview_row_imageview"
         android:layout_width="match_parent"
         android:layout_height="389dp"

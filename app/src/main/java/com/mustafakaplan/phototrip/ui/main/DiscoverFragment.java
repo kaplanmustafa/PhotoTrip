@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.github.chrisbanes.photoview.PhotoView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -95,6 +96,7 @@ public class DiscoverFragment extends Fragment
         super.onViewCreated(view, savedInstanceState);
 
         RecyclerView recyclerView = view.findViewById(R.id.recyclerProfileView);
+        PhotoView photoView = (PhotoView) view.findViewById(R.id.recyclerview_row_discover_imageview);
         swipeRefreshLayout = view.findViewById(R.id.refreshLayout);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

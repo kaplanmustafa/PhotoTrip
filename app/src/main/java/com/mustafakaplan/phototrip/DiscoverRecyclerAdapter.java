@@ -39,7 +39,7 @@ public class DiscoverRecyclerAdapter extends RecyclerView.Adapter<DiscoverRecycl
     public PostHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.recycler_row_discover,parent,false);
+        View view = layoutInflater.inflate(R.layout.recycler_row_discover_places,parent,false);
         View.OnClickListener onClickListener = null;
         view.setOnClickListener(onClickListener);
         return new PostHolder(view);

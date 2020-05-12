@@ -6,13 +6,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mustafakaplan.phototrip.ui.main.PlacesFragment;
-import com.mustafakaplan.phototrip.ui.main.ProfilesFragment;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -40,7 +38,7 @@ public class PlacesRecyclerAdapter extends RecyclerView.Adapter<PlacesRecyclerAd
     public PostHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.recycler_row_discover,parent,false);
+        View view = layoutInflater.inflate(R.layout.recycler_row_discover_places,parent,false);
         View.OnClickListener onClickListener = null;
         view.setOnClickListener(onClickListener);
         return new PostHolder(view);

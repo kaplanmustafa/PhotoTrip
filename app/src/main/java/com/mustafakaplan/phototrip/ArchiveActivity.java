@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.github.chrisbanes.photoview.PhotoView;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -53,6 +54,8 @@ public class ArchiveActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_archive);
+
+        PhotoView photoView = (PhotoView) findViewById(R.id.recyclerview_row_imageview);
 
         userCommentFromFB = new ArrayList<>();
         userImageFromFB = new ArrayList<>();

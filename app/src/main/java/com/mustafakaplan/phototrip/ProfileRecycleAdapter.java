@@ -13,19 +13,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class ProfileRecycleAdapter extends RecyclerView.Adapter<ProfileRecycleAdapter.PostHolder>
 {
@@ -47,7 +37,7 @@ public class ProfileRecycleAdapter extends RecyclerView.Adapter<ProfileRecycleAd
     public ProfileRecycleAdapter.PostHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.recycler_row2,parent,false);
+        View view = layoutInflater.inflate(R.layout.profile_recycler_row,parent,false);
         View.OnClickListener onClickListener = null;
         view.setOnClickListener(onClickListener);
 

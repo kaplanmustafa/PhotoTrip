@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,17 +9,7 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/recyclerview_row_discover_location_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:paddingLeft="10dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:textColor="#FFFFFF" />
-
-    <TextView
-        android:id="@+id/recyclerview_row_discover_useraddress_text"
+        android:id="@+id/recyclerview_row_useraddress_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
@@ -29,28 +20,30 @@
         android:textColor="#FFFFFF"
         tools:ignore="RtlCompat" />
 
-    <ImageView
-        android:id="@+id/recyclerview_row_discover_imageview"
+    <com.github.chrisbanes.photoview.PhotoView
+        android:id="@+id/recyclerview_row_imageview"
         android:layout_width="match_parent"
         android:layout_height="389dp"
         android:layout_gravity="center"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-        app:srcCompat="@drawable/airplanes" />
+        app:srcCompat="@drawable/ic_launcher_background" />
 
     <TextView
-        android:id="@+id/recyclerview_row_discover_comment_text"
+        android:id="@+id/recyclerview_row_comment_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:paddingLeft="10dp"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
+        android:text="TextView"
         android:textColor="#FFFFFF" />
 
     <View
-        android:id="@+id/divider_discover"
+        android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#FFFFFF" />
+
 </LinearLayout>
