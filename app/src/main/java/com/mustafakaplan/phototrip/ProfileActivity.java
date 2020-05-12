@@ -261,10 +261,6 @@ public class ProfileActivity extends AppCompatActivity
             startActivity(intent);
             finish();
         }
-
-
-
-
     }
 
     public void deletePost()
@@ -316,7 +312,6 @@ public class ProfileActivity extends AppCompatActivity
         }
 
         updateDoc.clear();
-
     }
 
     public void goArchive(View view)

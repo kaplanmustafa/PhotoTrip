@@ -283,9 +283,9 @@ public class FeedActivity<recyclerView> extends AppCompatActivity
             Intent intentToUpdate = new Intent(FeedActivity.this, UpdateUsernameActivity.class);
             intentToUpdate.putExtra("currentUsername",ProfileActivity.currentUserName);
             intentToUpdate.putExtra("currentMail",ProfileActivity.currentEmail);
-
-            startActivity(intentToUpdate);
             intentToUpdate.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // Bütün aktiviteleri kapat
+            startActivity(intentToUpdate);
+
             finish();
         }
         else if(item.getItemId() == R.id.updatepassword) // Şifre Değiştir

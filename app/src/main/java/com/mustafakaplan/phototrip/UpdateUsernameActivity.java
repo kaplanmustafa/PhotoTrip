@@ -37,6 +37,7 @@ public class UpdateUsernameActivity extends AppCompatActivity
     int control = 0;
     int control2 = 0;
     int control3 = 0;
+    int control4 = 0;
 
     HashMap<String, Object> userData;
     ArrayList<String> documentIdFromFB;
@@ -179,7 +180,8 @@ public class UpdateUsernameActivity extends AppCompatActivity
                         {
                             control3 = 1;
 
-                            for (String docs : documentIdFromFB) {
+                            for (String docs : documentIdFromFB)
+                            {
                                 firebaseFirestore.collection("Posts").document(docs).update(userData).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
@@ -192,13 +194,30 @@ public class UpdateUsernameActivity extends AppCompatActivity
                                     }
                                 });
                             }
-                        }
+
                             Toast.makeText(UpdateUsernameActivity.this, "Kullanıcı Adı Değiştirildi", Toast.LENGTH_LONG).show();
+                            documentIdFromFB.clear();
 
                             Intent intentToUpdate = new Intent(UpdateUsernameActivity.this, FeedActivity.class);
-                            startActivity(intentToUpdate);
                             intentToUpdate.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // Bütün aktiviteleri kapat
+                            startActivity(intentToUpdate);
                             finish();
+
+                        }
+
+                        else if(documentIdFromFB.isEmpty() && control4 == 0) // Gönderi Yoksa İşlemi Bitir
+                        {
+                            control4 = 1;
+                            Toast.makeText(UpdateUsernameActivity.this, "Kullanıcı Adı Değiştirildi", Toast.LENGTH_LONG).show();
+                            documentIdFromFB.clear();
+
+                            Intent intentToUpdate = new Intent(UpdateUsernameActivity.this, FeedActivity.class);
+                            intentToUpdate.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // Bütün aktiviteleri kapat
+                            startActivity(intentToUpdate);
+                            finish();
+                        }
+
+
                     }
                 }
             }
