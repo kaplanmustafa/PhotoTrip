@@ -374,14 +374,19 @@ public class EditProfileActivity extends AppCompatActivity
             {
                 if(Build.VERSION.SDK_INT >= 28)
                 {
+                    int width= selectImage.getWidth();
+                    int height= selectImage.getHeight();
                     ImageDecoder.Source source = ImageDecoder.createSource(this.getContentResolver(),imageData);
                     selectedImage = ImageDecoder.decodeBitmap(source);
-                    Bitmap smallImage = makeSmallerImage(selectedImage,300);
-                    selectImage.setImageBitmap(smallImage); // Seçilen resmi imageView'e koy
+                    selectedImage = Bitmap.createScaledBitmap(selectedImage, width,height, true);
+                    selectImage.setImageBitmap(selectedImage);
                 }
                 else
                 {
+                    int width= selectImage.getWidth();
+                    int height= selectImage.getHeight();
                     selectedImage = MediaStore.Images.Media.getBitmap(this.getContentResolver(),imageData); // Resmi bitmap'e çevir
+                    selectedImage = Bitmap.createScaledBitmap(selectedImage, width,height, true);
                     selectImage.setImageBitmap(selectedImage); // Seçilen resmi imageView'e koy
                 }
 

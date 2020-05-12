@@ -49,8 +49,6 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<FeedRecyclerAdapte
         return new PostHolder(view);
     }
 
-
-    @RequiresApi(api = Build.VERSION_CODES.P)
     @Override // Buraya bağlanınca ne olacağı
     public void onBindViewHolder(@NonNull final PostHolder holder, final int position)
     {
