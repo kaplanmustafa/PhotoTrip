@@ -117,8 +117,6 @@ public class ProfileRecycleAdapter extends RecyclerView.Adapter<ProfileRecycleAd
         });
     }
 
-
-
     @Override
     public int getItemCount() // Listedeki Eleman-Satır Sayısı
     {

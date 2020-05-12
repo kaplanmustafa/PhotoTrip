@@ -22,6 +22,7 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<FeedRecyclerAdapte
     private ArrayList<String> userCommentList;
     private ArrayList<String> userImageList;
     private ArrayList<String> userAddressList;
+    Boolean control = false;
 
     public FeedRecyclerAdapter(ArrayList<String> userEmailList, ArrayList<String> userNameList,ArrayList<String> userCommentList, ArrayList<String> userImageList,ArrayList<String> userAddressList)
     {
@@ -47,40 +48,57 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<FeedRecyclerAdapte
     @Override // Buraya bağlanınca ne olacağı
     public void onBindViewHolder(@NonNull final PostHolder holder, final int position)
     {
-        holder.userEmailText.setText(userNameList.get(position));
-        holder.commentText.setText(userCommentList.get(position));
-        holder.addressText.setText(userAddressList.get(position));
-        Picasso.get().load(userImageList.get(position)).into(holder.imageView);
-
-        // Ana Sayfadan Profile Gitme
-        holder.userEmailText.setOnClickListener(new View.OnClickListener()
+        if(control)
         {
-            @Override
-            public void onClick(View v)
-            {
-                v.getContext().startActivity(new Intent(v.getContext(), ProfileActivity.class).putExtra("showUser",userEmailList.get(position)).putExtra("showUserName",holder.userEmailText.getText().toString()).putExtra("activity","feed"));
-            }
-        });
+            holder.imageView.setImageResource(R.drawable.holidays);
+            holder.addressText.setText("");
+            holder.commentText.setText("");
+            holder.userEmailText.setText("");
 
-        // Ana Sayfadan Konuma Gitme
-        holder.addressText.setOnClickListener(new View.OnClickListener() // Konum Bilgisi Click
+            control = false;
+        }
+
+        else
         {
-            @Override
-            public void onClick(View v)
+            holder.userEmailText.setText(userNameList.get(position));
+            holder.commentText.setText(userCommentList.get(position));
+            holder.addressText.setText(userAddressList.get(position));
+            Picasso.get().load(userImageList.get(position)).into(holder.imageView);
+
+            // Ana Sayfadan Profile Gitme
+            holder.userEmailText.setOnClickListener(new View.OnClickListener()
             {
-                if (!holder.addressText.getText().toString().matches(""))
+                @Override
+                public void onClick(View v)
                 {
-                    v.getContext().startActivity(new Intent(v.getContext(), MapsActivity.class).putExtra("locationLatitude",FeedActivity.userLatitudeFromFB.get(position)).putExtra("locationLongitude",FeedActivity.userLongitudeFromFB.get(position)).putExtra("locationAddress",FeedActivity.userAddressFromFB.get(position)));
+                    v.getContext().startActivity(new Intent(v.getContext(), ProfileActivity.class).putExtra("showUser",userEmailList.get(position)).putExtra("showUserName",holder.userEmailText.getText().toString()).putExtra("activity","feed"));
                 }
-            }
-        });
+            });
 
-
+            // Ana Sayfadan Konuma Gitme
+            holder.addressText.setOnClickListener(new View.OnClickListener() // Konum Bilgisi Click
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    if (!holder.addressText.getText().toString().matches(""))
+                    {
+                        v.getContext().startActivity(new Intent(v.getContext(), MapsActivity.class).putExtra("locationLatitude",FeedActivity.userLatitudeFromFB.get(position)).putExtra("locationLongitude",FeedActivity.userLongitudeFromFB.get(position)).putExtra("locationAddress",FeedActivity.userAddressFromFB.get(position)));
+                    }
+                }
+            });
+        }
     }
 
     @Override
     public int getItemCount() // Listedeki Eleman-Satır Sayısı
     {
+        if(userImageList.size() == 0)
+        {
+            control = true;
+            return userImageList.size()+1;
+        }
+
         return userEmailList.size();
     }
 
