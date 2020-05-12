@@ -21,21 +21,21 @@
         android:id="@+id/recyclerProfileView"
         android:layout_width="414dp"
         android:layout_height="0dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="1dp"
         android:background="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/followButton" />
+        app:layout_constraintTop_toBottomOf="@+id/divider2" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profilePhoto"
-        android:layout_width="145dp"
-        android:layout_height="129dp"
-        android:layout_marginStart="16dp"
+        android:layout_width="177dp"
+        android:layout_height="186dp"
+        android:layout_marginStart="10dp"
         app:civ_border_color="#FFFFFF"
         app:civ_border_width="2dp"
-        app:layout_constraintBottom_toBottomOf="@+id/aboutText"
+        app:layout_constraintBottom_toBottomOf="@+id/editButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/nameText"
         app:srcCompat="@drawable/user"
@@ -88,15 +88,13 @@
     <View
         android:id="@+id/divider2"
         android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_marginBottom="1dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
         android:background="#FFFFFF"
-        app:layout_constraintBottom_toTopOf="@+id/recyclerProfileView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editButton"
-        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintTop_toBottomOf="@+id/followButton"
         tools:ignore="MissingConstraints" />
 
     <Button
@@ -111,16 +109,14 @@
 
     <Button
         android:id="@+id/followButton"
-        android:layout_width="145dp"
+        android:layout_width="183dp"
         android:layout_height="37dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="159dp"
         android:onClick="followUser"
         android:text="TAKİP"
-        app:layout_constraintBottom_toBottomOf="@+id/editButton"
-        app:layout_constraintEnd_toEndOf="@+id/profilePhoto"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/profilePhoto"
-        app:layout_constraintTop_toBottomOf="@+id/profilePhoto" />
+        app:layout_constraintEnd_toEndOf="@+id/aboutText"
+        app:layout_constraintStart_toStartOf="@+id/aboutText"
+        app:layout_constraintTop_toBottomOf="@+id/userNameShow" />
 
     <TextView
         android:id="@+id/userNameShow"
