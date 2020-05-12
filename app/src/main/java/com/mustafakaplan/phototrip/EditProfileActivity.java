@@ -71,12 +71,12 @@ public class EditProfileActivity extends AppCompatActivity
         nameEditText.setText("Ad Soyad");
         aboutMeText.setText("Hakkımda");
 
-        if(oldName != null)
+        if(oldName != null && !oldName.matches("Ad Soyad"))
         {
             nameEditText.setText(oldName);
         }
 
-        if(oldAbout != null)
+        if(oldAbout != null && !oldAbout.matches("Hakkımda"))
         {
             aboutMeText.setText(oldAbout);
         }
@@ -145,6 +145,7 @@ public class EditProfileActivity extends AppCompatActivity
                                         ProfileActivity.updatePhoto = true;
 
                                         Toast.makeText(EditProfileActivity.this,"Kaydedildi",Toast.LENGTH_LONG).show();
+                                        userData.clear();
                                         Intent intent = new Intent(EditProfileActivity.this,ProfileActivity.class);
                                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // Bütün aktiviteleri kapat
                                         startActivity(intent);
@@ -220,6 +221,7 @@ public class EditProfileActivity extends AppCompatActivity
                             ProfileActivity.updatePhoto = true;
 
                             Toast.makeText(EditProfileActivity.this,"Kaydedildi",Toast.LENGTH_LONG).show();
+                            userData.clear();
                             Intent intent = new Intent(EditProfileActivity.this,ProfileActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // Bütün aktiviteleri kapat
                             startActivity(intent);
@@ -237,7 +239,7 @@ public class EditProfileActivity extends AppCompatActivity
 
         }
 
-        else // İlk kez düzenlemeye girerse ve foto olmadan kaydederse
+        else // İlk kez düzenlemeye girerse veya foto olmadan kaydederse
         {
             if(nameEditText.getText().toString().matches("") && aboutMeText.getText().toString().matches("") && !ppControl) // Değişiklik yapılmadıysa
             {
@@ -268,6 +270,8 @@ public class EditProfileActivity extends AppCompatActivity
                         ProfileActivity.updatePhoto = true;
 
                         Toast.makeText(EditProfileActivity.this,"Kaydedildi",Toast.LENGTH_LONG).show();
+                        userData.clear();
+                        ProfileActivity.updatePhoto = true;
                         Intent intent = new Intent(EditProfileActivity.this,ProfileActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // Bütün aktiviteleri kapat
                         startActivity(intent);

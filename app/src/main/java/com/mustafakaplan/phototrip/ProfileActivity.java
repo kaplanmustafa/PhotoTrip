@@ -138,7 +138,6 @@ public class ProfileActivity extends AppCompatActivity
 
         if(showUser != null)
         {
-            System.out.println("User Name : " + showUsrName);
             if(!currentEmail.matches(showUser))
             {
                 userNameShow.setText(showUsrName);
@@ -533,8 +532,6 @@ public class ProfileActivity extends AppCompatActivity
                                     else
                                     {
                                         profilePhoto.setImageResource(R.drawable.user);
-                                        nameText.setText("Ad Soyad");
-                                        aboutText.setText("Hakkımda");
                                     }
 
                                     break;
@@ -570,8 +567,6 @@ public class ProfileActivity extends AppCompatActivity
                                     else
                                     {
                                         profilePhoto.setImageResource(R.drawable.user);
-                                        nameText.setText("Ad Soyad");
-                                        aboutText.setText("Hakkımda");
                                     }
 
                                     break;
