@@ -179,32 +179,26 @@ public class UpdateUsernameActivity extends AppCompatActivity
                         {
                             control3 = 1;
 
-                            for(String docs : documentIdFromFB)
-                            {
-                                firebaseFirestore.collection("Posts").document(docs).update(userData).addOnSuccessListener(new OnSuccessListener<Void>()
-                                {
+                            for (String docs : documentIdFromFB) {
+                                firebaseFirestore.collection("Posts").document(docs).update(userData).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
-                                    public void onSuccess(Void aVoid)
-                                    {
+                                    public void onSuccess(Void aVoid) {
 
                                     }
-                                }).addOnFailureListener(new OnFailureListener()
-                                {
+                                }).addOnFailureListener(new OnFailureListener() {
                                     @Override
-                                    public void onFailure(@NonNull Exception e)
-                                    {
+                                    public void onFailure(@NonNull Exception e) {
                                         System.out.println(e);
                                     }
                                 });
                             }
-
+                        }
                             Toast.makeText(UpdateUsernameActivity.this, "Kullanıcı Adı Değiştirildi", Toast.LENGTH_LONG).show();
 
                             Intent intentToUpdate = new Intent(UpdateUsernameActivity.this, FeedActivity.class);
                             startActivity(intentToUpdate);
                             intentToUpdate.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // Bütün aktiviteleri kapat
                             finish();
-                        }
                     }
                 }
             }
