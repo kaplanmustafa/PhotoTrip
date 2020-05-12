@@ -15,7 +15,11 @@
     android:id="@+id/profile"
     android:icon="@color/colorPrimaryDark"
     android:title="Profil">
-
+    </item>
+    <item
+        android:id="@+id/updateusername"
+        android:icon="@color/colorPrimaryDark"
+        android:title="Kullanıcı Adı Değiştir">
     </item>
     <item
         android:id="@+id/updatepassword"

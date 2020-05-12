@@ -120,7 +120,6 @@ public class FeedActivity<recyclerView> extends AppCompatActivity
             updateName = false;
         }
 
-
         RecyclerView recyclerView = findViewById(R.id.recyclerProfileView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -277,6 +276,16 @@ public class FeedActivity<recyclerView> extends AppCompatActivity
             Intent intentToProfile = new Intent(FeedActivity.this, ProfileActivity.class);
             startActivity(intentToProfile);
             intentToProfile.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // Bütün aktiviteleri kapat
+            finish();
+        }
+        else if(item.getItemId() == R.id.updateusername) // Kullanıcı Adı Değiştir
+        {
+            Intent intentToUpdate = new Intent(FeedActivity.this, UpdateUsernameActivity.class);
+            intentToUpdate.putExtra("currentUsername",ProfileActivity.currentUserName);
+            intentToUpdate.putExtra("currentMail",ProfileActivity.currentEmail);
+
+            startActivity(intentToUpdate);
+            intentToUpdate.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // Bütün aktiviteleri kapat
             finish();
         }
         else if(item.getItemId() == R.id.updatepassword) // Şifre Değiştir
