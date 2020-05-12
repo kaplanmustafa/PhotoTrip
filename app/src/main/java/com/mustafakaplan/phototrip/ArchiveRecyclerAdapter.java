@@ -66,7 +66,7 @@ public class ArchiveRecyclerAdapter extends RecyclerView.Adapter<ArchiveRecycler
 
             holder.commentText.setText(userCommentList.get(position));
             holder.addressText.setText(userAddressList.get(position));
-            Picasso.get().load(userImageList.get(position)).into(holder.imageView);
+            Picasso.get().load(userImageList.get(position)).resize(1080,1070).into(holder.imageView);
 
             // Arşivdeki Gönderiyi Tamamen Sil
             holder.deleteButton.setOnClickListener(new View.OnClickListener()

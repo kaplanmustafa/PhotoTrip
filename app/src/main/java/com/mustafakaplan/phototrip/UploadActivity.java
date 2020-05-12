@@ -10,6 +10,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.ImageDecoder;
 import android.net.Uri;
 import android.os.Build;
@@ -236,13 +237,19 @@ public class UploadActivity extends AppCompatActivity
             {
                 if(Build.VERSION.SDK_INT >= 28)
                 {
+                    int width= selectImage.getWidth();
+                    int height= selectImage.getHeight();
                     ImageDecoder.Source source = ImageDecoder.createSource(this.getContentResolver(),imageData);
                     selectedImage = ImageDecoder.decodeBitmap(source);
-                    selectImage.setImageBitmap(selectedImage); // Seçilen resmi imageView'e koy
+                    selectedImage = Bitmap.createScaledBitmap(selectedImage, width,height, true);
+                    selectImage.setImageBitmap(selectedImage);
                 }
                 else
                 {
+                    int width= selectImage.getWidth();
+                    int height= selectImage.getHeight();
                     selectedImage = MediaStore.Images.Media.getBitmap(this.getContentResolver(),imageData); // Resmi bitmap'e çevir
+                    selectedImage = Bitmap.createScaledBitmap(selectedImage, width,height, true);
                     selectImage.setImageBitmap(selectedImage); // Seçilen resmi imageView'e koy
                 }
 

@@ -50,7 +50,7 @@ public class ProfileRecycleAdapter extends RecyclerView.Adapter<ProfileRecycleAd
     {
         holder.commentText.setText(userCommentList.get(position));
         holder.addressText.setText(userAddressList.get(position));
-        Picasso.get().load(userImageList.get(position)).into(holder.imageView);
+        Picasso.get().load(userImageList.get(position)).resize(1080,1070).into(holder.imageView);
 
         holder.imageView.setOnLongClickListener(new View.OnLongClickListener()
         {

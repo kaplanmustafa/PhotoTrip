@@ -1,6 +1,10 @@
 package com.mustafakaplan.phototrip;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.ImageDecoder;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
@@ -45,6 +50,7 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<FeedRecyclerAdapte
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.P)
     @Override // Buraya bağlanınca ne olacağı
     public void onBindViewHolder(@NonNull final PostHolder holder, final int position)
     {
@@ -60,10 +66,11 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<FeedRecyclerAdapte
 
         else
         {
+            Picasso.get().load(userImageList.get(position)).resize(1080,1070).into(holder.imageView);
             holder.userEmailText.setText(userNameList.get(position));
             holder.commentText.setText(userCommentList.get(position));
             holder.addressText.setText(userAddressList.get(position));
-            Picasso.get().load(userImageList.get(position)).into(holder.imageView);
+
 
             // Ana Sayfadan Profile Gitme
             holder.userEmailText.setOnClickListener(new View.OnClickListener()

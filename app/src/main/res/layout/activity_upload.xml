@@ -19,8 +19,8 @@
 
     <ImageView
         android:id="@+id/selectImage"
-        android:layout_width="372dp"
-        android:layout_height="310dp"
+        android:layout_width="match_parent"
+        android:layout_height="389dp"
         android:onClick="selectImage"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
