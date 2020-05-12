@@ -93,66 +93,64 @@ public class UploadActivity extends AppCompatActivity
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) // İşlme Başarılı
                 {
-                    StorageReference newReference = FirebaseStorage.getInstance().getReference(imageName);
+            StorageReference newReference = FirebaseStorage.getInstance().getReference(imageName);
 
-                    newReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>()
+            newReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>()
+            {
+                    @Override
+                    public void onSuccess(Uri uri)
                     {
-                        @Override
-                        public void onSuccess(Uri uri)
+                        String downloadUrl = uri.toString(); // Kaydedilen resmin urlsini al
+
+                        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+
+                        String userEmail = firebaseUser.getEmail();
+                        String comment = commentText.getText().toString();
+
+                        HashMap<String, Object> postData = new HashMap<>();
+                        postData.put("useremail",userEmail);
+                        postData.put("username",ProfileActivity.currentUserName);
+                        postData.put("downloadurl",downloadUrl);
+                        postData.put("comment",comment);
+                        postData.put("date", FieldValue.serverTimestamp());
+                        postData.put("visibility","true");
+                        postData.put("imagename",imageName);
+
+                        if(locationText.getText().toString().matches("") || !locationSwitch.isChecked())
                         {
-                            String downloadUrl = uri.toString(); // Kaydedilen resmin urlsini al
-
-                            FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-
-                            String userEmail = firebaseUser.getEmail();
-                            String comment = commentText.getText().toString();
-
-                            HashMap<String, Object> postData = new HashMap<>();
-                            postData.put("useremail",userEmail);
-                            postData.put("username",ProfileActivity.currentUserName);
-                            postData.put("downloadurl",downloadUrl);
-                            postData.put("comment",comment);
-                            postData.put("date", FieldValue.serverTimestamp());
-                            postData.put("visibility","true");
-                            postData.put("imagename",imageName);
-
-                            if(locationText.getText().toString().matches("") || !locationSwitch.isChecked())
-                            {
-                                postData.put("address","");
-                                postData.put("latitude","");
-                                postData.put("longitude","");
-                            }
-                            else
-                            {
-                                postData.put("address",address);
-                                postData.put("latitude",String.valueOf(location.latitude));
-                                postData.put("longitude",String.valueOf(location.longitude));
-                            }
-
-                            firebaseFirestore.collection("Posts").add(postData).addOnSuccessListener(new OnSuccessListener<DocumentReference>()
-                            {
-                                @Override
-                                public void onSuccess(DocumentReference documentReference)
-                                {
-
-                                    Toast.makeText(UploadActivity.this,"Tamamlandı",Toast.LENGTH_LONG).show();
-                                    UploadActivity.address = null;
-                                    UploadActivity.location = null;
-                                    Intent intent = new Intent(UploadActivity.this,FeedActivity.class);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // Bütün aktiviteleri kapat
-                                    startActivity(intent);
-                                }
-                            }).addOnFailureListener(new OnFailureListener()
-                            {
-                                @Override
-                                public void onFailure(@NonNull Exception e)
-                                {
-                                    Toast.makeText(UploadActivity.this,e.getLocalizedMessage().toString(),Toast.LENGTH_LONG).show();
-                                }
-                            });
-
+                            postData.put("address","");
+                            postData.put("latitude","");
+                            postData.put("longitude","");
                         }
-                    });
+                        else
+                        {
+                            postData.put("address",address);
+                            postData.put("latitude",String.valueOf(location.latitude));
+                            postData.put("longitude",String.valueOf(location.longitude));
+                        }
+
+                        firebaseFirestore.collection("Posts").add(postData).addOnSuccessListener(new OnSuccessListener<DocumentReference>()
+                        {
+                            @Override
+                            public void onSuccess(DocumentReference documentReference)
+                            {
+                                Toast.makeText(UploadActivity.this,"Tamamlandı",Toast.LENGTH_LONG).show();
+                                UploadActivity.address = null;
+                                UploadActivity.location = null;
+                                Intent intent = new Intent(UploadActivity.this,FeedActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // Bütün aktiviteleri kapat
+                                startActivity(intent);
+                            }
+                        }).addOnFailureListener(new OnFailureListener()
+                        {
+                            @Override
+                            public void onFailure(@NonNull Exception e)
+                            {
+                                Toast.makeText(UploadActivity.this,e.getLocalizedMessage().toString(),Toast.LENGTH_LONG).show();
+                            }
+                        });
+        }
+            });
 
                 }
             }).addOnFailureListener(new OnFailureListener()
