@@ -59,6 +59,18 @@ public class UpdateUsernameActivity extends AppCompatActivity
         documentIdFromFB = new ArrayList<>();
     }
 
+    @Override
+    // geri tuşuna bastığında
+    public void onBackPressed()
+    {
+        Toast.makeText(UpdateUsernameActivity.this, "İşlem İptal Edildi", Toast.LENGTH_LONG).show();
+
+        Intent intentToUpdate = new Intent(UpdateUsernameActivity.this, FeedActivity.class);
+        startActivity(intentToUpdate);
+        intentToUpdate.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // Bütün aktiviteleri kapat
+        finish();
+    }
+
     public void save(View view)
     {
         newUserName = updateUserNameText.getText().toString();
