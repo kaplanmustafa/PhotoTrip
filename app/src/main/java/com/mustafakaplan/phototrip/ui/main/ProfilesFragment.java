@@ -16,6 +16,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
@@ -90,28 +91,15 @@ public class ProfilesFragment extends Fragment
         arrayAdapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1,userNameFromFB);
         editText.setAdapter(arrayAdapter);
 
-        editText.addTextChangedListener(new TextWatcher() {
+        editText.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s)
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
-                if(userNameFromFB.contains(s.toString()))
-                {
-                    Intent intentToProfile = new Intent(getContext(),ProfileActivity.class);
-                    intentToProfile.putExtra("showUser",userEmailFromFB.get(userNameFromFB.indexOf(s.toString())));
-                    intentToProfile.putExtra("showUserName",s.toString());
-                    intentToProfile.putExtra("activity","places");
-                    startActivity(intentToProfile);
-                }
+                Intent intentToProfile = new Intent(getContext(),ProfileActivity.class);
+                intentToProfile.putExtra("showUser",userEmailFromFB.get(userNameFromFB.indexOf(parent.getItemAtPosition(position).toString())));
+                intentToProfile.putExtra("showUserName",parent.getItemAtPosition(position).toString());
+                intentToProfile.putExtra("activity","places");
+                startActivity(intentToProfile);
             }
         });
 

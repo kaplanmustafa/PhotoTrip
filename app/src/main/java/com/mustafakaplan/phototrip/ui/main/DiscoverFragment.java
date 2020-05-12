@@ -105,7 +105,11 @@ public class DiscoverFragment extends Fragment
 
         recyclerView.setAdapter(discoverRecyclerAdapter);
 
-        getDataFromFirestore();
+        if(userImageFromFB.isEmpty())
+        {
+            getDataFromFirestore();
+        }
+
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() // Sayfa Yenileme
         {
