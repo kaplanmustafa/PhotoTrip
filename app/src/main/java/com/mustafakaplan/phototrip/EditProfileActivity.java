@@ -83,7 +83,7 @@ public class EditProfileActivity extends AppCompatActivity
 
         if(oldImage != null && !oldImage.matches("null"))
         {
-            Picasso.get().load(oldImage).into(selectImage);
+            Picasso.get().load(oldImage).resize(726,715).into(selectImage);
             control = true;
         }
 
@@ -376,6 +376,7 @@ public class EditProfileActivity extends AppCompatActivity
                 {
                     int width= selectImage.getWidth();
                     int height= selectImage.getHeight();
+                    System.out.println(width+ " " + height);
                     ImageDecoder.Source source = ImageDecoder.createSource(this.getContentResolver(),imageData);
                     selectedImage = ImageDecoder.decodeBitmap(source);
                     selectedImage = Bitmap.createScaledBitmap(selectedImage, width,height, true);
