@@ -74,6 +74,7 @@ public class UpdateUsernameActivity extends AppCompatActivity
 
     public void save(View view)
     {
+
         newUserName = updateUserNameText.getText().toString();
 
         if(newUserName.matches("")) // Alan boşsa
@@ -83,11 +84,12 @@ public class UpdateUsernameActivity extends AppCompatActivity
 
         else if(newUserName.matches(currentUsername))
         {
-            Toast.makeText(UpdateUsernameActivity.this,"Kullanıcı Adı Aynı!",Toast.LENGTH_SHORT).show();
+            Toast.makeText(UpdateUsernameActivity.this,"Lütfen Farklı Bir Kullanıcı Adı Giriniz!",Toast.LENGTH_SHORT).show();
         }
 
         else
         {
+            System.out.println();
             control = 0;
             control2 = 0;
 
