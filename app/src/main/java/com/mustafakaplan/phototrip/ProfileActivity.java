@@ -525,10 +525,7 @@ public class ProfileActivity extends AppCompatActivity
 
                                     if(!ppUrl.matches("null"))
                                     {
-                                        int width = profilePhoto.getWidth();
-                                        int height = profilePhoto.getHeight();
-
-                                        Picasso.get().load(ppUrl).resize(width,height).into(profilePhoto);
+                                        Picasso.get().load(ppUrl).resize(487,512).into(profilePhoto);
                                     }
                                     else
                                     {

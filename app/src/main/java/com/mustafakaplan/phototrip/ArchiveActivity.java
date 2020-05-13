@@ -88,8 +88,8 @@ public class ArchiveActivity extends AppCompatActivity
     {
         control = 1;
         Intent intent = new Intent(ArchiveActivity.this, ProfileActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // Bütün aktiviteleri kapat
         startActivity(intent);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // Bütün aktiviteleri kapat
         finish();
     }
 

@@ -47,6 +47,7 @@ public class UploadActivity extends AppCompatActivity
     ImageView selectImage, selectLocation;
     Bitmap selectedImage;
     Uri imageData;
+    int control = 0;
 
     static String address="";
     static LatLng location = null;
@@ -130,26 +131,33 @@ public class UploadActivity extends AppCompatActivity
                             postData.put("longitude",String.valueOf(location.longitude));
                         }
 
-                        firebaseFirestore.collection("Posts").add(postData).addOnSuccessListener(new OnSuccessListener<DocumentReference>()
+                        if(control == 0)
                         {
-                            @Override
-                            public void onSuccess(DocumentReference documentReference)
+                            control = 1;
+
+                            firebaseFirestore.collection("Posts").add(postData).addOnSuccessListener(new OnSuccessListener<DocumentReference>()
                             {
-                                Toast.makeText(UploadActivity.this,"Tamamlandı",Toast.LENGTH_LONG).show();
-                                UploadActivity.address = null;
-                                UploadActivity.location = null;
-                                Intent intent = new Intent(UploadActivity.this,FeedActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // Bütün aktiviteleri kapat
-                                startActivity(intent);
-                            }
-                        }).addOnFailureListener(new OnFailureListener()
-                        {
-                            @Override
-                            public void onFailure(@NonNull Exception e)
+                                @Override
+                                public void onSuccess(DocumentReference documentReference)
+                                {
+                                    Toast.makeText(UploadActivity.this,"Tamamlandı",Toast.LENGTH_LONG).show();
+                                    UploadActivity.address = null;
+                                    UploadActivity.location = null;
+                                    Intent intent = new Intent(UploadActivity.this,FeedActivity.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // Bütün aktiviteleri kapat
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            }).addOnFailureListener(new OnFailureListener()
                             {
-                                Toast.makeText(UploadActivity.this,e.getLocalizedMessage().toString(),Toast.LENGTH_LONG).show();
-                            }
-                        });
+                                @Override
+                                public void onFailure(@NonNull Exception e)
+                                {
+                                    Toast.makeText(UploadActivity.this,e.getLocalizedMessage().toString(),Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        }
+
         }
             });
 
