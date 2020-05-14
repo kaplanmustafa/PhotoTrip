@@ -101,7 +101,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         });*/
 
-        String apiKey = "AIzaSyCArh3iYb0-1ZlsfZSw7Wx907Cmr1uwrTI";
+        String apiKey = "Private_Key";
 
         if (!Places.isInitialized())
         {
