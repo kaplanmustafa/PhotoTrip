@@ -121,7 +121,7 @@ public class PlacesFragment extends Fragment
 
         recyclerView.setAdapter(placesRecyclerAdapter);
 
-        String apiKey = "AIzaSyCArh3iYb0-1ZlsfZSw7Wx907Cmr1uwrTI";
+        String apiKey = "Private_Key";
 
         if (!Places.isInitialized())
         {
