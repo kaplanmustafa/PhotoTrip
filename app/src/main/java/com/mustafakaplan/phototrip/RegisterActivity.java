@@ -191,10 +191,13 @@ public class RegisterActivity extends AppCompatActivity
         firebaseUser = firebaseAuth.getCurrentUser();
 
         firebaseUser.sendEmailVerification()
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                .addOnCompleteListener(new OnCompleteListener<Void>()
+                {
                     @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
+                    public void onComplete(@NonNull Task<Void> task)
+                    {
+                        if (task.isSuccessful())
+                        {
                             Toast.makeText(RegisterActivity.this,"Kayıt Başarılı, Lütfen Eposta Adresinizi Doğrulayınız",Toast.LENGTH_LONG).show();
                         }
                     }

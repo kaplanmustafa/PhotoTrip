@@ -22,8 +22,8 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     }
 
     @Override
-    public Fragment getItem(int position) {
-
+    public Fragment getItem(int position)
+    {
         if(position == 0) // Keşfet
         {
             return DiscoverFragment.newInstance();

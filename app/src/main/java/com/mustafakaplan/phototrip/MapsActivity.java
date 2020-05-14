@@ -132,7 +132,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onPlaceSelected(@NonNull Place place) {
                 final LatLng latLng = place.getLatLng();
-
                 String address = place.getName();
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,15));
 
@@ -144,17 +143,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     }
 
                     mMap.addMarker(new MarkerOptions().title(address).position(latLng));
-
                     UploadActivity.address = address;
                     UploadActivity.location = latLng;
                     UploadActivity.locationText.setText(address);
-
                     UploadActivity.locationSwitch.setVisibility(View.VISIBLE);
                     UploadActivity.locationSwitch.setChecked(true);
-
                     Toast.makeText(getApplicationContext(),"Konum Eklendi",Toast.LENGTH_LONG).show();
                 }
-
             }
 
             @Override
